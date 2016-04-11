@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#798892</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="EditTextTheme" parent="@android:style/Widget.EditText">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/custom_blue</item>
+        <item name="android:textColorHint">@color/custom_bright_blue</item>
+        <item name="android:textColor">#e6f7ff</item>
+
+    </style>
+
+
+
+    <style name="MyDatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/custom_text_color_normal</item>
+        <item name="colorPrimaryDark">@color/custom_tp_accent</item>
+        <item name="colorAccent">@color/custom_tp_main1</item>
+
+    </style>
+
+
+</resources>

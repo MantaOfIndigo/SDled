@@ -1,0 +1,6 @@
+<root>
+  <item name='android.opengl.GLES20 GL_FLOAT'>
+    <annotation name='java.lang.annotation.Deprecated' />
+    <annotation name='android.support.annotation.NonNull' />
+  </item>
+</root>

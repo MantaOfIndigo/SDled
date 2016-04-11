@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        android:background="@drawable/holiday_layout_decoration">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView3"
+            android:layout_gravity="top|left"
+            android:src="@drawable/decoration2" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@android:color/transparent"
+            android:layout_gravity="bottom">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="20dp">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomRegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Data inizio periodo:"
+                    android:id="@+id/textView5"
+                    android:layout_gravity="center"
+                    android:textSize="18dp"
+                    android:layout_weight="0.7"
+                    android:textColor="#f3f3f3" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/holiday_text_decoration"
+                    android:id="@+id/holiday_frame_begin_date">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomDateTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/add_holiday_begin"
+                        android:layout_weight="0.3"
+                        android:textSize="23sp"
+                        android:text=""
+                        android:textColor="#ffffff"
+                        android:gravity="right"
+                        android:layout_gravity="right" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="20dp">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomRegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Data fine perodo:"
+                    android:id="@+id/textView6"
+                    android:layout_gravity="center"
+                    android:textSize="18dp"
+                    android:layout_weight="0.7"
+                    android:textColor="#f3f3f3" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/holiday_text_decoration"
+                    android:id="@+id/holiday_frame_end_date">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomDateTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/add_holiday_end"
+                        android:layout_weight="0.3"
+                        android:textSize="23sp"
+                        android:text=""
+                        android:textColor="#ffffff"
+                        android:layout_gravity="right"
+                        android:gravity="right" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AGGIUNGI PERIODO"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/button2"
+                android:onClick="addDate"
+                android:textColor="#ffffff"
+                android:background="@color/custom_blue"
+                android:layout_gravity="bottom"
+                android:padding="20dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView2"
+        android:layout_weight="0.6"
+        android:background="#8198a2"
+        android:fillViewport="false">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/holiday_table"></TableLayout>
+    </ScrollView>
+</LinearLayout>

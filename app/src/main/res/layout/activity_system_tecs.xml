@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#8198a2"
+        android:clickable="false">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#c91897de">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Attività:"
+                    android:id="@+id/textView17"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="#5f5f5f"
+                    android:textSize="15dp" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomRegularFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Name"
+                    android:id="@+id/sys_tec_name"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sys_tec_scroll"
+                android:layout_column="8"
+                android:fillViewport="false"
+                android:layout_marginBottom="70dp"
+                android:paddingTop="75dp">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/sys_tec_table">
+
+                </TableLayout>
+            </ScrollView>
+
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/imageButton3"
+                android:background="@drawable/plusiconnew"
+                android:onClick="addNewTecnology"
+                android:layout_marginTop="-60dp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

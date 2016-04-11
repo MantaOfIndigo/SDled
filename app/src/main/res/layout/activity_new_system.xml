@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/custom_dark_grey">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="bottom">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomEditTextFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/new_system_name"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:inputType="textPersonName"
+                android:textAlignment="center"
+                android:textColor="#f3f3f3"
+                android:layout_marginBottom="10dp"
+                android:textSize="20dp"
+                android:theme="@style/EditTextTheme" />
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomEditTextFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/new_system_owner"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:inputType="textPersonName"
+                android:hint="Proprietario"
+                android:textAlignment="center"
+                android:textColorHint="@color/custom_bright_blue"
+                android:textColor="#f3f3f3"
+                android:layout_marginBottom="20dp"
+                android:textSize="20dp"
+                android:theme="@style/EditTextTheme" />
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AVANTI"
+                android:onClick="toAddTecnology"
+                android:id="@+id/button"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="#f3f3f3"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="10dp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:baselineAlignBottom="false"
+            android:src="@drawable/decoration1"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="5dp" />
+    </FrameLayout>
+
+</LinearLayout>
