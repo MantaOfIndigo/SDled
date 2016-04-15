@@ -5,6 +5,7 @@ import android.util.Log;
 import com.nololed.andreamantani.nololed.Model.HolidayPeriod;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -70,7 +71,7 @@ public class CalendarUtils {
     }
 
     public static boolean isInBetweenPeriods(HolidayPeriod first, HolidayPeriod last){
-        boolean check1 = inBetweenPeriod(first,last);
+        boolean check1 = inBetweenPeriod(first, last);
         boolean check2 = inBetweenPeriod(last,first);
 
 
@@ -107,7 +108,7 @@ public class CalendarUtils {
         int month = Integer.parseInt(splitter[1]);
 
         returner.set(Calendar.DAY_OF_MONTH, day);
-        returner.set(Calendar.MONTH, month-1);
+        returner.set(Calendar.MONTH, month - 1);
 
         return returner;
 
@@ -136,5 +137,13 @@ public class CalendarUtils {
         }
 
         return false;
+    }
+
+
+    public static SimpleDateFormat getFormatDays(){
+        return new SimpleDateFormat("dd");
+    };
+    public static SimpleDateFormat getFormatMonts(){
+        return new SimpleDateFormat("MMMM");
     }
 }

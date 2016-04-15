@@ -22,8 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.nololed.andreamantani.nololed.Model.CustomDatePickerDialog;
-import com.nololed.andreamantani.nololed.Model.DateDialog;
-import com.nololed.andreamantani.nololed.Model.DateRecord;
+import com.nololed.andreamantani.nololed.Model.Dialogs.DateDialog;
+import com.nololed.andreamantani.nololed.Model.Records.DateRecord;
 import com.nololed.andreamantani.nololed.Model.HolidayPeriod;
 import com.nololed.andreamantani.nololed.Utils.CalendarUtils;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;

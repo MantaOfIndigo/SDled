@@ -21,12 +21,16 @@ public class CalendarDates {
         christmas.set(Calendar.MONTH, 11);
         christmas.set(Calendar.DAY_OF_MONTH, 25);
         christmas.set(Calendar.MINUTE, 0);
+        christmas.set(Calendar.HOUR, 0);
+        christmas.set(Calendar.MILLISECOND, 0);
         christmas.set(Calendar.SECOND, 0);
 
         firstOfYear = Calendar.getInstance();
         firstOfYear.set(Calendar.MONTH, 0);
         firstOfYear.set(Calendar.DAY_OF_MONTH, 1);
         firstOfYear.set(Calendar.MINUTE, 0);
+        firstOfYear.set(Calendar.HOUR, 0);
+        firstOfYear.set(Calendar.MILLISECOND, 0);
         firstOfYear.set(Calendar.SECOND, 0);
 
         settingEastersInYears();
@@ -42,6 +46,8 @@ public class CalendarDates {
         easter2016.set(Calendar.DAY_OF_MONTH, 27);
         easter2016.set(Calendar.MINUTE, 0);
         easter2016.set(Calendar.SECOND, 0);
+        easter2016.set(Calendar.HOUR, 0);
+        easter2016.set(Calendar.MILLISECOND, 0);
 
         eastersInYears[0] = easter2016;
 
@@ -51,6 +57,8 @@ public class CalendarDates {
         easter2017.set(Calendar.DAY_OF_MONTH, 16);
         easter2017.set(Calendar.MINUTE, 0);
         easter2017.set(Calendar.SECOND, 0);
+        easter2017.set(Calendar.HOUR, 0);
+        easter2017.set(Calendar.MILLISECOND, 0);
 
         eastersInYears[1] = easter2017;
 
@@ -60,6 +68,8 @@ public class CalendarDates {
         easter2018.set(Calendar.DAY_OF_MONTH, 1);
         easter2018.set(Calendar.MINUTE, 0);
         easter2018.set(Calendar.SECOND, 0);
+        easter2018.set(Calendar.HOUR, 0);
+        easter2018.set(Calendar.MILLISECOND, 0);
 
         eastersInYears[2] = easter2018;
 
@@ -70,6 +80,9 @@ public class CalendarDates {
         easter2019.set(Calendar.MINUTE, 0);
         easter2019.set(Calendar.SECOND, 0);
 
+        easter2019.set(Calendar.HOUR, 0);
+        easter2019.set(Calendar.MILLISECOND, 0);
+
         eastersInYears[3] = easter2019;
 
         Calendar easter2020 = Calendar.getInstance();
@@ -78,6 +91,8 @@ public class CalendarDates {
         easter2020.set(Calendar.DAY_OF_MONTH, 12);
         easter2020.set(Calendar.MINUTE, 0);
         easter2020.set(Calendar.SECOND, 0);
+        easter2020.set(Calendar.HOUR, 0);
+        easter2020.set(Calendar.MILLISECOND, 0);
 
         eastersInYears[4] = easter2020;
 
@@ -87,6 +102,8 @@ public class CalendarDates {
         easter2021.set(Calendar.DAY_OF_MONTH, 4);
         easter2021.set(Calendar.MINUTE, 0);
         easter2021.set(Calendar.SECOND, 0);
+        easter2021.set(Calendar.HOUR, 0);
+        easter2021.set(Calendar.MILLISECOND, 0);
 
         eastersInYears[5] = easter2021;
 
@@ -96,6 +113,8 @@ public class CalendarDates {
         easter2022.set(Calendar.DAY_OF_MONTH, 17);
         easter2022.set(Calendar.MINUTE, 0);
         easter2022.set(Calendar.SECOND, 0);
+        easter2022.set(Calendar.HOUR, 0);
+        easter2022.set(Calendar.MILLISECOND, 0);
 
         eastersInYears[6] = easter2022;
 

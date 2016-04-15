@@ -1,17 +1,30 @@
 package com.nololed.andreamantani.nololed;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.nololed.andreamantani.nololed.Model.HolidayPeriod;
-import com.nololed.andreamantani.nololed.Model.SingleDayRecord;
+import com.nololed.andreamantani.nololed.Model.Dialogs.SingleDateDialog;
+import com.nololed.andreamantani.nololed.Model.Records.SingleDayRecord;
+import com.nololed.andreamantani.nololed.Utils.Algorithm;
 import com.nololed.andreamantani.nololed.Utils.CalendarDates;
 import com.nololed.andreamantani.nololed.Utils.CalendarUtils;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,21 +37,52 @@ public class AddSingleHolidays extends AppCompatActivity {
     int easterEnabled;
     int firstOfYearEnabled;
 
+    List<Date> holyDates;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_holidays);
-
-
 
         CalendarDates.settingUpHolidays();
         setListeners();
 
         scrollContent = (LinearLayout) findViewById(R.id.single_holiday_scroll_content);
 
-        for(int i = 0; i < 3; i++){
-            scrollContent.addView(new SingleDayRecord(AddSingleHolidays.this, null, CalendarDates.getCurrentYearEaster().getTime(), toggleEnable));
+        this.holyDates = new ArrayList<>();
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite:
+                for(int i = 0; i < scrollContent.getChildCount(); i++){
+                    if(((SingleDayRecord) scrollContent.getChildAt(i)).getEnabled()){
+                        StandardWorkHours.addSingleDay(holyDates.get(i));
+                    }
+                }
+
+                startActivity(new Intent(AddSingleHolidays.this, WeekSetUpActivity.class));
         }
+
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.check_type_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void openCalendarDialog(View v){
+        Dialog singleDateDialog = new Dialog(AddSingleHolidays.this);
+        singleDateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        singleDateDialog.setContentView(new SingleDateDialog(AddSingleHolidays.this, null, singleDateDialog));
+
+        singleDateDialog.show();
     }
 
     private void setListeners(){
@@ -79,7 +123,7 @@ public class AddSingleHolidays extends AppCompatActivity {
         }else if(enabledCode == 2){
             v.setAlpha((float) 1);
         } else{
-            v.setAlpha((float) 0.3);
+            v.setClickable(false);
         }
     }
     private View.OnClickListener toggleChristmas = new View.OnClickListener(){
@@ -131,5 +175,27 @@ public class AddSingleHolidays extends AppCompatActivity {
             }
         }
     };
+
+    public void setNewDateRecord(Date dateSelected){
+        int oldSize = this.holyDates.size();
+        this.holyDates = Algorithm.addOrdinateDateToList(dateSelected, this.holyDates);
+
+        if(this.holyDates.size() == oldSize){
+            Toast.makeText(this, "Giorno già inserito", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, "Aggiunto", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void populateList(){
+        scrollContent.removeAllViews();
+        for(int i = 0; i < holyDates.size(); i++){
+            scrollContent.addView(new SingleDayRecord(AddSingleHolidays.this, null, holyDates.get(i), toggleEnable));
+        }
+    }
+
+    public void resumeActivity(){
+        this.populateList();
+    }
 
 }

@@ -76,7 +76,6 @@
             android:id="@+id/dialog_date_null"
             android:layout_weight="0.5"
             android:background="#bcbcbc"
-            android:onClick=""
             android:textColor="#f3f3f3" />
 
         <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.nololed.andreamantani.nololed.Model.SystemTec;
 import com.nololed.andreamantani.nololed.Model.Tecnology;
-import com.nololed.andreamantani.nololed.Model.TecnologyRecord;
+import com.nololed.andreamantani.nololed.Model.Records.TecnologyRecord;
 
 import java.util.List;
 

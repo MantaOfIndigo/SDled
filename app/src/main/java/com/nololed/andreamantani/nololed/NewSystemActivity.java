@@ -69,7 +69,7 @@ public class NewSystemActivity extends AppCompatActivity {
             editor.putString("current_system", newSystem.toString());
             editor.commit();
 
-            Intent intent = new Intent(NewSystemActivity.this, TakePhotoActivity.class);
+            Intent intent = new Intent(NewSystemActivity.this, AddHolidaysPeriodsActivity.class);
             intent.putExtra("new_system_name", dir);
             intent.putExtra("new_photo", 0);
             startActivity(intent);

@@ -1,19 +1,15 @@
 package com.nololed.andreamantani.nololed;
 
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.LinearLayout;
-import android.widget.TimePicker;
 
-import com.nololed.andreamantani.nololed.Model.DateRecord;
-import com.nololed.andreamantani.nololed.Model.DayRecord;
+import com.nololed.andreamantani.nololed.Model.Records.DayRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +28,23 @@ public class WeekSetUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_week_setting);
         recordController = new ArrayList<>();
         populateScroll();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_type_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite:
+                startActivity(new Intent(WeekSetUpActivity.this, ProfileTecnologyActivity.class));
+        }
+        return true;
     }
 
     private void populateScroll(){
