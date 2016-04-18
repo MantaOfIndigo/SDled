@@ -64,6 +64,8 @@ public class AddSingleHolidays extends AppCompatActivity {
                     }
                 }
 
+                StandardWorkHours.addStaticHolyday(christmasEnabled, easterEnabled, firstOfYearEnabled);
+
                 startActivity(new Intent(AddSingleHolidays.this, WeekSetUpActivity.class));
         }
 
@@ -181,9 +183,9 @@ public class AddSingleHolidays extends AppCompatActivity {
         this.holyDates = Algorithm.addOrdinateDateToList(dateSelected, this.holyDates);
 
         if(this.holyDates.size() == oldSize){
-            Toast.makeText(this, "Giorno già inserito", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Giorno già inserito", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(this, "Aggiunto", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Aggiunto", Toast.LENGTH_SHORT).show();
         }
     }
 

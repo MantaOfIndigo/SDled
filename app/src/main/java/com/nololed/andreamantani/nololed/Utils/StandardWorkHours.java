@@ -14,9 +14,45 @@ import java.util.List;
  * Created by andreamantani on 08/04/16.
  */
 public class StandardWorkHours extends Application {
-    private static DailyHours[] week = new DailyHours[7];
+    private static DailyHours[] standardWeek = new DailyHours[7];
     private static List<Date> singleDays = new ArrayList<>();
     private static List<HolidayPeriod> periods = new ArrayList<>();
+
+
+    private static DailyHours[] customWeek = new DailyHours[7];
+    private static int daysToRemove = 0;
+
+
+    private static int daysInYear;
+
+    public static int daysCount(){
+        Calendar currYear = Calendar.getInstance();
+
+        daysInYear = currYear.getMaximum(Calendar.DAY_OF_YEAR);
+
+        for(int i = 0; i < periods.size();i++){
+            daysInYear -= periods.get(i).getDaysNumber();
+        }
+
+        daysInYear -= singleDays.size();
+
+        //giorni lavorativi = giorni lavorativi - giornisettimanali da rimuovere per numero di settimane(numero massimo di settimane in un anno - circa settimane tolte dalle ferie)
+        daysInYear -= daysToRemove * (currYear.getMaximum(Calendar.WEEK_OF_YEAR) - (daysInYear % 7));
+
+        return daysInYear;
+    }
+
+    public static void setCustomStandards(){
+        customWeek = new DailyHours[7];
+
+        for(int i = 0; i <  7; i++){
+            customWeek[i] = new DailyHours();
+            customWeek[i].setAMTurn(standardWeek[i].getBeginAMCalendar(), standardWeek[i].getEndAMCalendar());
+            customWeek[i].setPMTurn(standardWeek[i].getBeginPMCalendar(), standardWeek[i].getEndPMCalendar());
+            customWeek[i].setEnable(standardWeek[i].getEnable());
+        }
+    }
+
 
     public static void setStandards(){
         for(int i = 0; i <  7; i++){
@@ -36,34 +72,157 @@ public class StandardWorkHours extends Application {
             ePMstandard.set(Calendar.HOUR_OF_DAY, 19);
             ePMstandard.set(Calendar.MINUTE, 0);
 
-            week[i] = new DailyHours();
-            week[i].setAMTurn(bAMstandard, eAMstandard);
-            week[i].setPMTurn(bPMstandard, ePMstandard);
+            standardWeek[i] = new DailyHours();
+            standardWeek[i].setAMTurn(bAMstandard, eAMstandard);
+            standardWeek[i].setPMTurn(bPMstandard, ePMstandard);
+            standardWeek[i].setEnable(true);
+        }
+    }
+
+    public static DailyHours getCustomDayStandard(String dayName){
+        switch (dayName){
+            case "Lunedì":
+                return customWeek[0];
+            case "Martedì":
+                return customWeek[1];
+            case "Mercoledì":
+                return customWeek[2];
+            case "Giovedì":
+                return customWeek[3];
+            case "Venerdì":
+                return customWeek[4];
+            case "Sabato":
+                return customWeek[5];
+            case "Domenica":
+                return customWeek[6];
+            default:
+                return null;
+        }
+    }
+
+    private static int calculateCustomHours(DailyHours[] array){
+        int count = 0;
+        int countToRemove = 0;
+        daysToRemove = 0;
+        for(int i = 0 ; i < array.length; i++){
+            count += array[i].getHoursNumber();
+            if(array[i].getHoursNumber() == 0){
+                daysToRemove++;
+            }
+        }
+
+        return count;
+    }
+
+    public static int getHoursNumber(Boolean custom){
+        if(custom){
+            return calculateCustomHours(customWeek);
+        }else {
+            return calculateCustomHours(standardWeek);
+        }
+
+    }
+
+    public static void setCustomDailyHours(String dayName, DailyHours item){
+        switch (dayName){
+            case "Monday":
+                customWeek[0] = item;
+                break;
+            case "Tuesday":
+                customWeek[1] = item;
+                break;
+            case "Thursday":
+                customWeek[2] = item;
+                break;
+            case "Wednesday":
+                customWeek[3] = item;
+                break;
+            case "Friday":
+                customWeek[4] = item;
+                break;
+            case "Saturday":
+                customWeek[5] = item;
+                break;
+            case "Sunday":
+                customWeek[6] = item;
+                break;
         }
     }
 
     public static void setDailyHours(String dayName, DailyHours item){
         switch (dayName){
             case "Monday":
-                week[0] = item;
+                standardWeek[0] = item;
                 break;
             case "Tuesday":
-                week[1] = item;
+                standardWeek[1] = item;
                 break;
             case "Thursday":
-                week[2] = item;
+                standardWeek[2] = item;
                 break;
             case "Wednesday":
-                week[3] = item;
+                standardWeek[3] = item;
                 break;
             case "Friday":
-                week[4] = item;
+                standardWeek[4] = item;
                 break;
             case "Saturday":
-                week[5] = item;
+                standardWeek[5] = item;
                 break;
             case "Sunday":
-                week[6] = item;
+                standardWeek[6] = item;
+                break;
+        }
+    }
+
+    public static void setEnableStandardDay(String dayName, boolean value){
+        switch (dayName){
+            case "Monday":
+                standardWeek[0].setEnable(value);
+                break;
+            case "Tuesday":
+                standardWeek[1].setEnable(value);
+                break;
+            case "Thursday":
+                standardWeek[2].setEnable(value);
+                break;
+            case "Wednesday":
+                standardWeek[3].setEnable(value);
+                break;
+            case "Friday":
+                standardWeek[4].setEnable(value);
+                break;
+            case "Saturday":
+                standardWeek[5].setEnable(value);
+                break;
+            case "Sunday":
+                standardWeek[6].setEnable(value);
+                break;
+        }
+    }
+
+    public static void setEnableCustomDay(String dayName, boolean value){
+        switch (dayName){
+            case "Monday":
+                customWeek[0].setEnable(value);
+                break;
+            case "Tuesday":
+                customWeek[1].setEnable(value);
+                break;
+            case "Thursday":
+                customWeek[2].setEnable(value);
+                break;
+            case "Wednesday":
+                customWeek[3].setEnable(value);
+                break;
+            case "Friday":
+                customWeek[4].setEnable(value);
+                break;
+            case "Saturday":
+                customWeek[5].setEnable(value);
+                break;
+            case "Sunday":
+                customWeek[6].setEnable(value);
                 break;
         }
     }
@@ -71,24 +230,25 @@ public class StandardWorkHours extends Application {
     public static DailyHours getDayStandard(String dayName){
         switch (dayName){
             case "Monday":
-                return week[0];
+                return standardWeek[0];
             case "Tuesday":
-                return week[1];
+                return standardWeek[1];
             case "Thursday":
-                return week[2];
+                return standardWeek[2];
             case "Wednesday":
-                return week[3];
+                return standardWeek[3];
             case "Friday":
-                return week[4];
+                return standardWeek[4];
             case "Saturday":
-                return week[5];
+                return standardWeek[5];
             case "Sunday":
-                return week[6];
+                return standardWeek[6];
             default:
                 return null;
 
         }
     }
+
     public static List<HolidayPeriod> getPeriods(){
         return periods;
     }
@@ -109,6 +269,20 @@ public class StandardWorkHours extends Application {
             }
         }
         return true;
+    }
+
+    //cod: 1: è festivo, 2: è lavorativo 3:già compreso tra feste
+    public static void addStaticHolyday(int christmas, int easter, int firstOfYear){
+        if (christmas == 1){
+            singleDays.add(CalendarDates.getChristmas().getTime());
+        }
+        if(easter == 1){
+            singleDays.add(CalendarDates.getCurrentYearEaster().getTime());
+        }
+
+        if(firstOfYear == 1){
+            singleDays.add(CalendarDates.getFirstOfYear().getTime());
+        }
     }
 
     public static boolean isFirstOfYearEnabled(){

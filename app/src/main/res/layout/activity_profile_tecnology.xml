@@ -7,7 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_gravity="bottom"
-        android:background="#c91897de">
+        android:background="#c91897de"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -46,7 +48,8 @@
                     android:gravity="right"
                     android:layout_marginRight="20dp"
                     android:layout_weight="0.1"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:focusableInTouchMode="true" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -116,7 +119,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#8198a2">
+                    android:background="#8198a2"
+                    android:layout_marginBottom="20dp">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -130,16 +134,19 @@
                             android:text="Modello:"
                             android:id="@+id/textView4"
                             android:textSize="20dp"
-                            android:textColor="#f3f3f3" />
+                            android:textColor="#f3f3f3"
+                            android:layout_marginBottom="5dp" />
 
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:ems="10"
-                            android:id="@+id/editText"
+                            android:id="@+id/profile_tec_model"
                             android:theme="@style/EditTextTheme"
-                            android:textColor="#ffffff" />
+                            android:textColor="#ffffff"
+                            android:focusableInTouchMode="true"
+                            android:layout_marginBottom="10dp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -149,9 +156,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="20dp">
 
                     <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
                         android:layout_width="120dp"
@@ -170,7 +177,8 @@
                         android:textColor="@color/custom_bright_blue"
                         android:id="@+id/profile_tec_power"
                         android:layout_weight="0.3"
-                        android:layout_marginRight="10dp" />
+                        android:layout_marginRight="10dp"
+                        android:focusableInTouchMode="true"  />
 
                     <com.nololed.andreamantani.nololed.FontClasses.CustomRegularFont
                         android:layout_width="20dp"
@@ -178,7 +186,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="W"
                         android:id="@+id/textView10"
-                        android:layout_weight="0.2" />
+                        android:layout_weight="0.1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -186,8 +194,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginRight="10dp">
 
                     <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
@@ -199,15 +207,16 @@
                         android:layout_gravity="center"
                         android:layout_weight="0.5" />
 
-                    <com.nololed.andreamantani.nololed.FontClasses.CustomEditTextFont
+                    <Spinner
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:ems="10"
                         android:textColor="@color/custom_bright_blue"
-                        android:id="@+id/profile_tec_hour"
-                        android:layout_weight="0.3"
-                        android:layout_marginRight="10dp" />
+                        android:id="@+id/profile_tec_tonality"
+                        android:layout_weight="0.4"
+                        android:layout_marginRight="10dp"
+                        android:spinnerMode="dropdown" />
 
                     <com.nololed.andreamantani.nololed.FontClasses.CustomRegularFont
                         android:layout_width="20dp"
@@ -215,14 +224,15 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="k"
                         android:id="@+id/textView11"
-                        android:layout_weight="0.2" />
+                        android:layout_weight="0.1" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -232,7 +242,7 @@
                     <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:text="Descrizione:"
+                        android:text="Locazione:"
                         android:id="@+id/textView15"
                         android:textSize="20dp"
                         android:layout_weight="0.5"
@@ -247,9 +257,36 @@
                         android:textColor="@color/custom_bright_blue"
                         android:id="@+id/profile_tec_description"
                         android:layout_margin="15dp"
-                        />
+                        android:focusableInTouchMode="true" />
                 </LinearLayout>
             </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#0F1230"
+                android:padding="10dp"
+                android:id="@+id/profile_tec_hours"
+                android:orientation="vertical">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Modifica orario"
+                    android:textColor="#ffffff"
+                    android:id="@+id/profile_tec_text_days"
+                    android:layout_margin="5dp" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Ore settimanali:"
+                    android:textColor="#ffffff"
+                    android:id="@+id/profile_tec_text_hour"
+                    android:layout_margin="5dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

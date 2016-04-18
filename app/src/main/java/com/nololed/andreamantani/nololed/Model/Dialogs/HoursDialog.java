@@ -1,32 +1,38 @@
-package com.nololed.andreamantani.nololed;
+package com.nololed.andreamantani.nololed.Model.Dialogs;
 
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
+import com.nololed.andreamantani.nololed.DailyWorkhoursActivity;
+import com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont;
+import com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont;
 import com.nololed.andreamantani.nololed.Model.DailyHours;
+import com.nololed.andreamantani.nololed.ProfileTecnologyActivity;
+import com.nololed.andreamantani.nololed.R;
 import com.nololed.andreamantani.nololed.Utils.CalendarUtils;
 import com.nololed.andreamantani.nololed.Utils.DailyTimePickerDialog;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
+import com.nololed.andreamantani.nololed.WeekSetUpActivity;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
- * Created by andreamantani on 07/04/16.
+ * Created by andreamantani on 17/04/16.
  */
-public class DailyWorkhoursActivity extends AppCompatActivity{
+public class HoursDialog extends LinearLayout {
 
-    //DailyHours workHours;
     Calendar bAMCalendar;
     Calendar eAMCalendar;
     Calendar bPMCalendar;
@@ -43,17 +49,39 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
 
     String dayName;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_workhours);
+    Context contextDialog;
+    Dialog currDialog;
+
+    OnClickListener updateTable;
 
 
+    public HoursDialog(final Context context, AttributeSet attrs, Dialog dialog, String dayName, OnClickListener populate) {
+        super(context, attrs);
 
-        Bundle extras = getIntent().getExtras();
-        dayName = extras.getString("day_name");
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.dialog_hours, this);
 
-        setTitle(this.dayName);
+
+        this.updateTable = populate;
+        this.contextDialog = dialog.getContext();
+        this.currDialog = dialog;
+        this.dayName = dayName;
+
+        CustomButtonFont okButton = (CustomButtonFont) findViewById(R.id.dialog_date_ok);
+        CustomButtonFont cancelButton = (CustomButtonFont) findViewById(R.id.dialog_date_null);
+
+        okButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveHour();
+            }
+        });
+        cancelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });
 
         myStandard = StandardWorkHours.getDayStandard(dayName);
         //workHours = new DailyHours();
@@ -81,7 +109,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         beginAM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DailyTimePickerDialog time = new DailyTimePickerDialog(DailyWorkhoursActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                DailyTimePickerDialog time = new DailyTimePickerDialog(contextDialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         beginAMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
@@ -97,7 +125,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         endAM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DailyTimePickerDialog time = new DailyTimePickerDialog(DailyWorkhoursActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                DailyTimePickerDialog time = new DailyTimePickerDialog(contextDialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         endAMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
@@ -113,7 +141,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         beginPM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DailyTimePickerDialog time = new DailyTimePickerDialog(DailyWorkhoursActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                DailyTimePickerDialog time = new DailyTimePickerDialog(contextDialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         beginPMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
@@ -130,7 +158,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         endPM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DailyTimePickerDialog time = new DailyTimePickerDialog(DailyWorkhoursActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                DailyTimePickerDialog time = new DailyTimePickerDialog(contextDialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -146,32 +174,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         });
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        DailyHours workHours = new DailyHours();
-        switch (item.getItemId()) {
-            case R.id.action_favorite:
-                if(hourConfirmed) {
-                    workHours.setAMTurn(bAMCalendar, eAMCalendar);
-                    workHours.setPMTurn(bPMCalendar, ePMCalendar);
-                    StandardWorkHours.setDailyHours(this.dayName, workHours);
-                    startActivity(new Intent(DailyWorkhoursActivity.this, WeekSetUpActivity.class));
-                }
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save_type_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private boolean checkDates(Calendar item, int index){
+    private boolean checkDates(Calendar item, int index) {
         boolean flag = true;
         if(CalendarUtils.checkHours(bAMCalendar, eAMCalendar)){
             setUpRecordLayout(endAM, false);
@@ -205,8 +208,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         return flag;
     }
 
-    private void setUpRecordLayout(LinearLayout record, boolean error){
-
+    private void setUpRecordLayout(LinearLayout record, boolean error) {
         TextView endAMtxt = (TextView) findViewById(R.id.daily_hour_txt_endam);
         TextView endPMtxt = (TextView) findViewById(R.id.daily_hour_txt_endpm);
         TextView begPMtxt = (TextView) findViewById(R.id.daily_hour_txt_beginpm);
@@ -256,10 +258,22 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
 
 
 
-
     }
 
+    public void saveHour() {
+        if (hourConfirmed) {
+            DailyHours workHours = new DailyHours();
+            workHours.setAMTurn(bAMCalendar, eAMCalendar);
+            workHours.setPMTurn(bPMCalendar, ePMCalendar);
+            StandardWorkHours.setCustomDailyHours(this.dayName, workHours);
 
 
+            this.updateTable.onClick(this);
+            this.currDialog.dismiss();
+        }
 
+    }
+    public void back(){
+        this.currDialog.dismiss();
+    }
 }

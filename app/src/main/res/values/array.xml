@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string-array name="tonality_array">
+            <item>3000</item>
+            <item>4000</item>
+            <item>6000</item>
+        </string-array>
+    </resources>

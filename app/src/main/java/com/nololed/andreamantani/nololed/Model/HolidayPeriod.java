@@ -83,9 +83,6 @@ public class HolidayPeriod implements Serializable{
             }
         }
 
-        Log.v("clockchecker", "conr: " + this.getBeginString() + " = " + obj.getBeginString());
-        Log.v("clockchecker", "conr: " + this.getEndString() + " = " + obj.getEndString());
-
         if(getMonth(this.getEnd()) == getMonth(obj.getEnd())) {
             if (getDays(this.getEnd()) == getDays(obj.getEnd())) {
                 return true;
@@ -100,6 +97,7 @@ public class HolidayPeriod implements Serializable{
     }
 
 
+    public int getDaysNumber(){ return this.countDays(); }
     public String getBeginString(){
         return CalendarUtils.getDateFormatted(this.begin);
     }

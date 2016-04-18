@@ -2,6 +2,8 @@ package com.nololed.andreamantani.nololed.Utils;
 
 import android.util.Log;
 
+import com.nololed.andreamantani.nololed.Model.HolidayPeriod;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,13 @@ public class Algorithm {
 
     public static List<Date> addOrdinateDateToList(Date date, List<Date> list){
         List<Date> newList = new ArrayList<>();
+        List<HolidayPeriod> holidayPeriods = StandardWorkHours.getPeriods();
+
+        for(int i = 0; i < holidayPeriods.size(); i++){
+            if(holidayPeriods.get(i).isInPeriod(date)){
+                return list;
+            }
+        }
 
         if(date.equals(CalendarDates.getChristmas().getTime())){
             return list;

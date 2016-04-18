@@ -13,19 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SystemTecsActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_tecnology_list" >
         </activity>
         <activity
             android:name=".TakePhotoActivity"
             android:label="@string/app_name" >
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
@@ -33,13 +30,10 @@
         <activity
             android:name=".NewSystemActivity"
             android:label="@string/app_name" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
         </activity>
         <activity
         android:name=".ProfileTecnologyActivity"
-        android:label="@string/app_name" >
+        android:label="@string/app_profile_tecnology" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".SystemTecsActivity" />
@@ -51,24 +45,33 @@
         </activity>
         <activity
             android:name=".WeekSetUpActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_week_list" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AddSingleHolidays" />
         </activity>
         <activity
             android:name=".DailyWorkhoursActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_daily_workhours" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WeekSetUpActivity" />
         </activity>
         <activity
             android:name=".AddSingleHolidays"
-            android:label="@string/app_name" >
+            android:label="@string/app_single_day" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AddHolidaysPeriodsActivity" />
+        </activity>
+        <activity
+            android:name=".ImagesListActivity"
+            android:label="@string/app_images" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

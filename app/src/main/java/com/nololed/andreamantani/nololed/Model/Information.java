@@ -3,38 +3,47 @@ package com.nololed.andreamantani.nololed.Model;
 
 public class Information {
 
+    private String model;
     private int power;
-    private int hour;
+    private int tonality;
     private int daysForYear;
 
     public Information(){
+        model = "";
         power = 0;
-        hour = 0;
+        tonality = 0;
         daysForYear = 0;
     }
-    public Information(String power, String hour, String daysForYear){
+    public Information(String model, String power, String tonality){
+
+        this.model = model;
+
         try {
             this.power = Integer.parseInt(power.replace(" ",""));
         }catch (Exception e){
             this.power = -1;
         }
         try {
-            this.hour = Integer.parseInt(hour.replace(" ", ""));
+            this.tonality = Integer.parseInt(tonality.replace(" ", ""));
         }catch (Exception e){
-            this.hour = -1;
+            this.tonality = -1;
         }
-        try {
+        /*try {
             this.daysForYear = Integer.parseInt(daysForYear.replace(" ", ""));
         }catch (Exception e){
             this.daysForYear = -1;
-        }
+        }*/
     }
 
+    public String getModel(){ return this.model; }
     public int getPower(){
         return this.power;
     }
-    public int getHour(){
-        return this.hour;
+    public int getTonality(){
+        return this.tonality;
+    }
+    public String getTonalityString(){
+        return String.valueOf(this.tonality);
     }
     public int getDaysForYear(){
         return this.daysForYear;
@@ -46,12 +55,23 @@ public class Information {
         }
         return String.valueOf(this.power);
     }
-    public String getHourString(){
+    public int getTonalityItem(){
 
-        if(this.hour == -1){
-            return "";
+        if(this.tonality == -1) {
+            return this.tonality;
         }
-        return String.valueOf(this.hour);
+
+        switch (this.tonality){
+            case 3000:
+                return 0;
+            case 4000:
+                return 1;
+            case 6000:
+                return 2;
+            default:
+                return -1;
+        }
+
     }
     public String getDaysForYearString(){
         if(this.daysForYear == -1){

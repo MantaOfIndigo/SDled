@@ -11,10 +11,16 @@ public class Turn {
 
     Calendar begin;
     Calendar end;
+    int hoursCount;
 
     public Turn(Calendar begin, Calendar end){
         this.begin = begin;
         this.end = end;
+        this.hoursCount = countHours();
+    }
+
+    private int countHours(){
+        return end.get(Calendar.HOUR_OF_DAY) - begin.get(Calendar.HOUR_OF_DAY);
     }
 
     public Calendar getBegin(){
@@ -23,6 +29,10 @@ public class Turn {
 
     public Calendar getEnd(){
         return this.end;
+    }
+
+    public int getHoursCount(){
+        return this.hoursCount;
     }
 
     public String toString(){

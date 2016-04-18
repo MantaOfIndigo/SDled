@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SDled</string>
+    <string name="app_add_holidays">Aggiungi Ferie</string>
+    <string name="app_daily_workhours">Orario Giornaliero</string>
+    <string name="app_new_system"></string>
+    <string name="app_profile_tecnology">Tecnologia</string>
+    <string name="app_tecnology_list">Lista Tecnologie</string>
+    <string name="app_single_day">Giorni feriali</string>
+    <string name="app_week_list">Standard Settimanale</string>
+    <string name="dialog_add">Aggiungi</string>
+    <string name="dialog_back">Indietro</string>
+    <string name="dialog_copy">Copia</string>
+    <string name="dialog_modify">Modifica</string>
+    <string name="app_images">Immagini</string>
 </resources>

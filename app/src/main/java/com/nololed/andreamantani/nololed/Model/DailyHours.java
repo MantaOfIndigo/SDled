@@ -12,11 +12,34 @@ import java.util.List;
 public class DailyHours {
 
     private Turn[] turns;
+    private boolean enable;
 
     public DailyHours(){
         this.turns = new Turn[2];
+        this.enable = true;
     }
 
+
+    public int getHoursNumber(){
+        if(enable) {
+            return this.turns[0].getHoursCount() + this.turns[1].getHoursCount();
+        }
+
+        return 0;
+
+    }
+
+    private void toggleEnable(){
+        if(this.enable){
+            this.enable = false;
+        }else{
+            this.enable = true;
+        }
+    }
+
+    public void setEnable(boolean value){
+        this.enable = value;
+    }
 
     public void setAMTurn(Calendar beginTurn, Calendar endTurn){
         this.turns[0] = new Turn(beginTurn, endTurn);
@@ -34,6 +57,9 @@ public class DailyHours {
         return turns[0].toString() + " / " + turns[1].toString();
     }
 
+    public boolean getEnable(){
+        return this.enable;
+    }
     public int getBeginAMHour(){
         Calendar returner = this.turns[0].getBegin();
         return returner.get(Calendar.HOUR_OF_DAY);

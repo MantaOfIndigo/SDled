@@ -2,15 +2,12 @@ package com.nololed.andreamantani.nololed.Model;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,14 +32,16 @@ public class TecnologyRecord extends LinearLayout {
         this.values = values;
         ImageView img = (ImageView) findViewById(R.id.record_img);
         TextView txtTitle = (TextView) findViewById(R.id.record_title);
-        TextView txtDesc = (TextView) findViewById(R.id.record_desc);
+        TextView txtModel = (TextView) findViewById(R.id.record_model);
+        TextView txtLocation = (TextView) findViewById(R.id.record_location);
         this.main = (LinearLayout) findViewById(R.id.record_main);
         this.delete = (LinearLayout) findViewById(R.id.record_delete);
         this.main.setOnClickListener(mainListener);
         this.delete.setOnClickListener(deleteListener);
 
         txtTitle.setText(String.valueOf(values.getQta()));
-        txtDesc.setText(values.getDesc());
+        txtModel.setText(values.getInfos().getModel());
+        txtLocation.setText("Locazione: " + values.getLocation());
         //img.setImageURI(values.getPhoto());
         Log.v("tecnology", "image: " + values.getPhoto().getPath());
 

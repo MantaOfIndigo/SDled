@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.nololed.andreamantani.nololed.Model.HolidayPeriod;
 import com.nololed.andreamantani.nololed.R;
-import com.nololed.andreamantani.nololed.Utils.Counter;
-
-import org.w3c.dom.Text;
+import com.nololed.andreamantani.nololed.Utils.Utilities;
 
 import java.util.Date;
 
@@ -34,7 +32,7 @@ public class DateRecord extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.holi_record, this);
 
-        period = new HolidayPeriod(begin, end, Counter.getHolidaysCounter());
+        period = new HolidayPeriod(begin, end, Utilities.getHolidaysCounter());
         period.getDeserializeHolidayPeriod(period.toString());
 
         this.index = index;

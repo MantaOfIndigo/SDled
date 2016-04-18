@@ -130,6 +130,10 @@ public class AddHolidaysPeriodsActivity extends AppCompatActivity {
         Calendar beginChecker1 = CalendarUtils.getDateFromString(beginCheck1.getText().toString());
         Calendar endChecker2 = CalendarUtils.getDateFromString(endCheck2.getText().toString());
 
+        if(beginCheck1.getText().toString().isEmpty() || endCheck2.getText().toString().isEmpty()){
+            return false;
+        }
+
         if(beginChecker1 != null){
             if(endChecker2 != null){
                 HolidayPeriod check3 = new HolidayPeriod(beginChecker1, endChecker2);
@@ -267,7 +271,7 @@ public class AddHolidaysPeriodsActivity extends AppCompatActivity {
         }else{
             new AlertDialog.Builder(this)
                     .setTitle("Periodo non valido")
-                    .setMessage("Le date devono definire un periodo differente da quelli già inseriti.")
+                    .setMessage("Inserisci date valide")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete

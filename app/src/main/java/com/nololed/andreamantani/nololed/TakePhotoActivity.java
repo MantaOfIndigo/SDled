@@ -13,7 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.nololed.andreamantani.nololed.Model.SystemTec;
-import com.nololed.andreamantani.nololed.Utils.Counter;
+import com.nololed.andreamantani.nololed.Utils.Utilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,17 +32,25 @@ public class TakePhotoActivity extends AppCompatActivity {
     String abspath;
     Uri tecPhotoPath;
 
+    boolean isMorePhoto;
+
     int newPhoto = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("systems", Context.MODE_PRIVATE);
         String list = sharedPreferences.getString("current_system", null);
         sys = new SystemTec().DeserializeSystem(list);
         Bundle extras = getIntent().getExtras();
+
+        if(extras.getBoolean("is_more_photo")){
+            this.isMorePhoto = true;
+        }else{
+            this.isMorePhoto = false;
+        }
+
         if(extras.getInt("new_photo") == 0) {
             newPhoto = 0;
         }
@@ -78,10 +86,17 @@ public class TakePhotoActivity extends AppCompatActivity {
         }
 
 
-        Intent back = new Intent(this, ProfileTecnologyActivity.class);
-        back.putExtra("url_image", abspath);
-        back.putExtra("new_photo", newPhoto);
-        startActivity(back);
+        if(isMorePhoto){
+            Intent back = new Intent(this, ImagesListActivity.class);
+            back.putExtra("url_image", abspath);
+            startActivity(back);
+        }else {
+            Intent back = new Intent(this, ProfileTecnologyActivity.class);
+            back.putExtra("url_image", abspath);
+            back.putExtra("new_photo", newPhoto);
+            startActivity(back);
+        }
+
         /*if (requestCode == PICK_FROM_CAMERA) {
             Bundle extras = data.getExtras();
             Uri picPath = data.getData();
@@ -101,7 +116,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         String dir = sys.getName().replace(" ", "_");
         dir = dir.replace(".", "DOT8");
         Log.v("lastcheck", dir);
-        String tecPhotoStringPath = Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator +  dir + Counter.getImageCounter() + ".jpg";
+        String tecPhotoStringPath = Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator +  dir + Utilities.getImageCounter() + ".jpg";
 
         Log.v("lastcheck", "tec: " + tecPhotoStringPath);
         filePhoto = new File(tecPhotoStringPath);
@@ -111,6 +126,10 @@ public class TakePhotoActivity extends AppCompatActivity {
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tecPhotoPath);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
+            Toast.makeText(TakePhotoActivity.this, "Fotografa una tecnologia", Toast.LENGTH_LONG).show();
+
+
             startActivityForResult(takePictureIntent, PICK_FROM_CAMERA);
         }
     }

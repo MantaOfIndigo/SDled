@@ -3,6 +3,7 @@ package com.nololed.andreamantani.nololed;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.nololed.andreamantani.nololed.Model.Records.DayRecord;
+import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class WeekSetUpActivity extends AppCompatActivity {
 
 
     List<DayRecord> recordController;
+
     LinearLayout scroll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +40,28 @@ public class WeekSetUpActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void setEnableDays(){
+        for(int i = 0; i < recordController.size(); i++){
+            if(recordController.get(i).getToggleButtonState()){
+                StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), true);
+            }else{
+                StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), false);
+            }
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
-                startActivity(new Intent(WeekSetUpActivity.this, ProfileTecnologyActivity.class));
+                setEnableDays();
+
+                Intent intent = new Intent(WeekSetUpActivity.this, TakePhotoActivity.class);
+                intent.putExtra("new_photo", 0);
+
+                Log.v("daycount", "count: " + StandardWorkHours.getHoursNumber(false));
+
+                startActivity(intent);
         }
         return true;
     }
@@ -53,8 +72,10 @@ public class WeekSetUpActivity extends AppCompatActivity {
 
         for(int i = 0; i < weekName.length; i++){
             DayRecord newItem = new DayRecord(WeekSetUpActivity.this, null, weekName[i], i, setHoursListener);
+
             scroll.addView(newItem);
             recordController.add(newItem);
+
         }
     }
 

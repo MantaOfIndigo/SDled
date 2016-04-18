@@ -1,7 +1,9 @@
 package com.nololed.andreamantani.nololed;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.nololed.andreamantani.nololed.Model.SystemTec;
 import com.nololed.andreamantani.nololed.Model.Tecnology;
 import com.nololed.andreamantani.nololed.Model.Records.TecnologyRecord;
+import com.nololed.andreamantani.nololed.Utils.Utilities;
 
 import java.util.List;
 
@@ -31,6 +34,8 @@ public class SystemTecsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_tecs);
+
+        Utilities.itemInNewPlace = false;
 
         SharedPreferences sharedPreferences = getSharedPreferences("systems", Context.MODE_PRIVATE);
         String list = sharedPreferences.getString("current_system", null);
@@ -64,7 +69,23 @@ public class SystemTecsActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_mail:
-                sendEmail();
+                new AlertDialog.Builder(SystemTecsActivity.this)
+                        .setTitle("Attenzione")
+                        .setMessage("Vuoi aggiungere delle foto del sito?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Utilities.setSystem(sys);
+                                Intent photo = new Intent(SystemTecsActivity.this, TakePhotoActivity.class);
+                                photo.putExtra("is_more_photo", true);
+                                startActivity(photo);
+                            }
+                        }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                sendEmail();
+                            }
+                        }
+                ).setIcon(android.R.drawable.ic_dialog_alert).show();
+
         }
 
         return true;
@@ -75,17 +96,32 @@ public class SystemTecsActivity extends AppCompatActivity{
         sys = new SystemTec();
         sys = sys.DeserializeSystem(list);
 
+        tbLayout.removeAllViews();
+
         TextView nameText = (TextView) findViewById(R.id.sys_tec_name);
         nameText.setText(sys.getName());
         List<Tecnology> showTecs = sys.getList();
 
         for(int i = 0; i < showTecs.size();i++){
-
             TecnologyRecord record = new TecnologyRecord(getBaseContext(), null, showTecs.get(i), tablerowOnClickListener, deleteIndexRow);
             tbLayout.addView(record);
         }
+    }
 
+    private void populateTable(SystemTec list){
+        sys = new SystemTec();
+        sys = list;
 
+        tbLayout.removeAllViews();
+
+        TextView nameText = (TextView) findViewById(R.id.sys_tec_name);
+        nameText.setText(sys.getName());
+        List<Tecnology> showTecs = sys.getList();
+
+        for(int i = 0; i < showTecs.size();i++){
+            TecnologyRecord record = new TecnologyRecord(getBaseContext(), null, showTecs.get(i), tablerowOnClickListener, deleteIndexRow);
+            tbLayout.addView(record);
+        }
     }
 
     public void sendEmail(){
@@ -102,37 +138,81 @@ public class SystemTecsActivity extends AppCompatActivity{
         public void onClick(View v) {
 
             for(int i = 0; i < tbLayout.getChildCount(); i++){
-                View row = tbLayout.getChildAt(i);
+                final View row = tbLayout.getChildAt(i);
                 if(((TecnologyRecord) row).getMainLayout() == v){
-                    Intent intent = new Intent(SystemTecsActivity.this , ProfileTecnologyActivity.class);
-                    intent.putExtra("tec_info", ((TecnologyRecord) row).getTecnology().toString());
-                    intent.putExtra("new_photo", 1);
-                    startActivity(intent);
+                    new AlertDialog.Builder(SystemTecsActivity.this)
+                            .setTitle("Attenzione")
+                            .setMessage("Vuoi modificare la tecnologia o copiare le informazioni?")
+                            .setPositiveButton(R.string.dialog_modify, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sendModify((TecnologyRecord) row);
+                                }
+                            }).setNegativeButton(R.string.dialog_copy, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sendCopy((TecnologyRecord) row);
+                                }
+                            }
+                    ).setIcon(android.R.drawable.ic_dialog_alert).show();
                 }
             }
         }
     };
+
+
+    private void sendModify(TecnologyRecord row){
+        Intent intent = new Intent(SystemTecsActivity.this , ProfileTecnologyActivity.class);
+        intent.putExtra("tec_info", row.getTecnology().toString());
+        intent.putExtra("new_photo", 1);
+        intent.putExtra("item_new_place", false);
+        startActivity(intent);
+    }
+
+    private void sendCopy(TecnologyRecord row){
+        Intent intent = new Intent(SystemTecsActivity.this , ProfileTecnologyActivity.class);
+        intent.putExtra("tec_info", row.getTecnology().toString());
+        intent.putExtra("new_photo", 1);
+        intent.putExtra("item_new_place", true);
+        startActivity(intent);
+    }
 
     private View.OnClickListener deleteIndexRow = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             for(int i = 0; i < tbLayout.getChildCount(); i++){
-                View row = tbLayout.getChildAt(i);
+                final View row = tbLayout.getChildAt(i);
                 if(((TecnologyRecord) row).getDeleteLayout()  == v){
-                    sys.getList().remove(((TecnologyRecord) row).getTecnology().getIndex());
 
-                    SharedPreferences sharedPref = getSharedPreferences("systems", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("current_system", sys.toString());
-                    editor.commit();
+                    new AlertDialog.Builder(SystemTecsActivity.this)
+                            .setTitle("Attenzione")
+                            .setMessage("Sicuro di voler rimuovere la tecnologia dall'elenco?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alertForRemove((TecnologyRecord) row);
+                                }
+                            }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    return;
+                                }
+                            }
+                    ).setIcon(android.R.drawable.ic_dialog_alert).show();
 
-                    finish();
-                    startActivity(getIntent());
                 }
             }
         }
     };
+
+
+    private void alertForRemove(TecnologyRecord row){
+        sys.getList().remove(((TecnologyRecord) row).getTecnology().getIndex());
+
+        SharedPreferences sharedPref = getSharedPreferences("systems", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("current_system", sys.toString());
+        editor.commit();
+
+        populateTable(sys);
+    }
 
     @Override
     public void onBackPressed() {

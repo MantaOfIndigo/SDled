@@ -55,7 +55,7 @@ public class SystemTec implements Serializable{
         String mailText = "";
         for(Tecnology item : this.tecList){
             String[] splitter = item.getPhoto().getPath().split(Pattern.quote(File.separator));
-            mailText += "Foto tecnologia: " + splitter[splitter.length-1] + "\n" + "Potenza: " + item.getInfos().getPowerString() + "\n" + "Ore al giorno: " + item.getInfos().getHourString() + "\n" + "Giorni all'anno: " + item.getInfos().getDaysForYearString() + "\n" + "Quantità: " + item.getQta() + "\n" + "Descrizione : " + item.getDesc() + "\n";
+            mailText += "Foto tecnologia: " + splitter[splitter.length-1] + "\n" + "Potenza: " + item.getInfos().getPowerString() + "\n" + "Ore al giorno: " + item.getInfos().getTonalityString() + "\n" + "Giorni all'anno: " + item.getInfos().getDaysForYearString() + "\n" + "Quantità: " + item.getQta() + "\n" + "Descrizione : " + item.getLocation() + "\n";
             mailText += "-------------------------------\n\n";
         }
 
@@ -127,5 +127,16 @@ public class SystemTec implements Serializable{
 
         //this.addList(new Tecnology().DeserializeTecnology(divide1));
         return this;
+    }
+
+    public boolean doesModelInSamePositionExists(String model, String location){
+        for(int i = 0; i < this.tecList.size(); i++){
+            if(location.equals(tecList.get(i).getLocation()) || location.replace(" ", "").equals(tecList.get(i).getLocation().replace(" ", ""))){
+                if(model.equals(tecList.get(i).getInfos().getModel())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

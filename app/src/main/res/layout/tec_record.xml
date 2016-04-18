@@ -83,12 +83,26 @@
 
                 <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:ellipsize="end"
+                    android:text="model"
+                    android:maxLines="2"
+                    android:id="@+id/record_model"
+                    android:padding="2dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="3dp" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:ellipsize="end"
                     android:text="descrizione"
                     android:maxLines="2"
-                    android:id="@+id/record_desc"
+                    android:id="@+id/record_location"
                     android:padding="2dp"
                     android:layout_marginRight="10dp"
                     android:textSize="15dp" />
