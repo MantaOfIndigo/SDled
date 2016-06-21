@@ -20,7 +20,7 @@ public class Turn {
     }
 
     private int countHours(){
-        return end.get(Calendar.HOUR_OF_DAY) - begin.get(Calendar.HOUR_OF_DAY);
+        return Math.abs(end.get(Calendar.HOUR_OF_DAY) - begin.get(Calendar.HOUR_OF_DAY));
     }
 
     public Calendar getBegin(){

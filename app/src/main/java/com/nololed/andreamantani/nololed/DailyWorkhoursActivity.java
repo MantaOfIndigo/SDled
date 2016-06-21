@@ -1,9 +1,12 @@
 package com.nololed.andreamantani.nololed;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +42,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
 
     DailyHours myStandard;
 
-    boolean hourConfirmed = false;
+    boolean hourConfirmed = true;
 
     String dayName;
 
@@ -76,7 +79,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         beginAMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getBeginAMHour(), myStandard.getBeginAMMinute()));
         endAMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.geteEndAMHour(), myStandard.getEndAMMinute()));
         beginPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getBeginPMHour(), myStandard.getBeginPMMinute()));
-        endPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.geteEndPMHour(), myStandard.getEndPMMinute()));
+        endPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getEndPMHour(), myStandard.getEndPMMinute()));
 
         beginAM.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +143,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
                         checkDates(ePMCalendar, 3);
 
                     }
-                }, myStandard.geteEndPMHour(), myStandard.getEndPMMinute(), true, 13, 23);
+                }, myStandard.getEndPMHour(), myStandard.getEndPMMinute(), true, 13, 23);
                 time.show();
             }
         });
@@ -233,30 +236,49 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         }
 
         if (record == endPM && !error){
-            endPM.setBackgroundResource(R.color.custom_greenblue);
+            endPM.setBackgroundResource(R.color.custom_dark_blue);
             ToggleButton tgBtn = (ToggleButton) findViewById(R.id.daily_hour_togglePM);
             tgBtn.setChecked(true);
-            endPMtxt.setTextColor(Color.parseColor("#677a82"));
+            endPMtxt.setTextColor(Color.parseColor("#ffffff"));
         }
 
         if(record == endAM && !error){
-            endAM.setBackgroundResource(R.color.custom_greenblue);
+            endAM.setBackgroundResource(R.color.custom_dark_blue);
             ToggleButton tgBtn = (ToggleButton) findViewById(R.id.daily_hour_toggleAM);
             tgBtn.setChecked(true);
-            endAMtxt.setTextColor(Color.parseColor("#677a82"));
+            endAMtxt.setTextColor(Color.parseColor("#ffffff"));
         }
 
         if (record == beginPM && !error){
-            beginPM.setBackgroundResource(R.color.custom_greenblue);
+            beginPM.setBackgroundResource(R.color.custom_dark_blue);
             ToggleButton tgBtn = (ToggleButton) findViewById(R.id.daily_hour_togglePMB);
             tgBtn.setChecked(true);
-            begPMtxt.setTextColor(Color.parseColor("#677a82"));
+            begPMtxt.setTextColor(Color.parseColor("#ffffff"));
         }
 
+    }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Uscita")
+                .setMessage("Sei sicuro di voler uscire?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DailyWorkhoursActivity.this.finish();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import com.nololed.andreamantani.nololed.Model.Records.SingleDayRecord;
 import com.nololed.andreamantani.nololed.Utils.Algorithm;
 import com.nololed.andreamantani.nololed.Utils.CalendarDates;
 import com.nololed.andreamantani.nololed.Utils.CalendarUtils;
+import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 
 import java.util.ArrayList;
@@ -66,7 +68,11 @@ public class AddSingleHolidays extends AppCompatActivity {
 
                 StandardWorkHours.addStaticHolyday(christmasEnabled, easterEnabled, firstOfYearEnabled);
 
-                startActivity(new Intent(AddSingleHolidays.this, WeekSetUpActivity.class));
+                SolarYearHours.setSolarCalendarWithoutHolidays();
+                Intent intent = new Intent(AddSingleHolidays.this, TakePhotoActivity.class);
+                intent.putExtra("new_photo", 0);
+                intent.putExtra("origin", "first");
+                startActivity(intent);
         }
 
         return true;
@@ -198,6 +204,29 @@ public class AddSingleHolidays extends AppCompatActivity {
 
     public void resumeActivity(){
         this.populateList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Uscita")
+                .setMessage("Sei sicuro di voler uscire?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        AddSingleHolidays.this.finish();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/custom_bright_blue">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/custom_dark_blue">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/custom_bright_blue"
+            android:paddingBottom="20dp">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Elenco costi"
+                android:id="@+id/textView18"
+                android:textSize="30dp"
+                android:textColor="@android:color/white"
+                android:layout_margin="15dp" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView6"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="60dp"
+            android:background="@color/custom_dark_blue"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scroll_container">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/custom_bright_blue">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/impianto_corrente"
+                        android:id="@+id/textView7"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textAlignment="textEnd"
+                        android:layout_marginRight="15dp" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/preview_content"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="30dp"></LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/custom_blue">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/impianto_led"
+                        android:id="@+id/textView7"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:layout_marginTop="30dp"
+                        android:textAlignment="textEnd"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/led_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="40dp"></LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/custom_dark_blue">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Risultati preventivo"
+                        android:id="@+id/textView73"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:layout_marginTop="30dp"
+                        android:textAlignment="textEnd"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/custom_dark_blue">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/material_blue_grey_800"
+                            android:layout_marginTop="35dp"></FrameLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:gravity="right"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_marginTop="-25dp"
+                            android:layout_marginBottom="5dp">
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Totale corrente:"
+                                android:id="@+id/textView20"
+                                android:textSize="20dp"
+                                android:gravity="left"
+                                android:layout_weight="0.2"
+                                android:textColor="@android:color/white"
+                                android:layout_gravity="center_vertical" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="0"
+                                android:id="@+id/preview_txt_price"
+                                android:textSize="22dp"
+                                android:outlineProvider="none"
+                                android:textColor="@android:color/white"
+                                android:layout_weight="0.8"
+                                android:gravity="right"
+                                android:paddingRight="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="€"
+                                android:id="@+id/textView12"
+                                android:textSize="20dp"
+                                android:textColor="@android:color/white"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/material_blue_grey_800"
+                            android:layout_marginTop="35dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:gravity="right"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="-25dp">
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Totale LED:"
+                                android:id="@+id/textView202"
+                                android:textSize="22dp"
+                                android:gravity="left"
+                                android:layout_weight="0.2"
+                                android:textColor="@android:color/white"
+                                android:layout_gravity="center_vertical" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="0"
+                                android:id="@+id/preview_led_txt_price"
+                                android:textSize="25dp"
+                                android:outlineProvider="none"
+                                android:textColor="@android:color/white"
+                                android:layout_weight="0.8"
+                                android:gravity="right"
+                                android:paddingRight="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="€"
+                                android:id="@+id/textView1244"
+                                android:textSize="20dp"
+                                android:textColor="@android:color/white"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/material_blue_grey_800"
+                            android:layout_marginTop="35dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:gravity="right"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="-25dp">
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Noleggio mensile"
+                                android:id="@+id/textView202"
+                                android:textSize="20dp"
+                                android:gravity="left"
+                                android:layout_weight="0.2"
+                                android:textColor="@android:color/white"
+                                android:layout_gravity="center_vertical" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="0"
+                                android:id="@+id/preview_nolo_month"
+                                android:textSize="22dp"
+                                android:outlineProvider="none"
+                                android:textColor="@android:color/white"
+                                android:layout_weight="0.8"
+                                android:gravity="right"
+                                android:paddingRight="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="€"
+                                android:id="@+id/textView1244"
+                                android:textSize="20dp"
+                                android:textColor="@android:color/white"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/material_blue_grey_800"
+                            android:layout_marginTop="35dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:gravity="right"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="-25dp">
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Noleggio annuale:"
+                                android:id="@+id/textView202"
+                                android:textSize="20dp"
+                                android:gravity="left"
+                                android:layout_weight="0.2"
+                                android:textColor="@android:color/white"
+                                android:layout_gravity="center_vertical" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="0"
+                                android:id="@+id/preview_nolo_year"
+                                android:textSize="22dp"
+                                android:outlineProvider="none"
+                                android:textColor="@android:color/white"
+                                android:layout_weight="0.8"
+                                android:gravity="right"
+                                android:paddingRight="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+
+                            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="€"
+                                android:id="@+id/textView1244"
+                                android:textSize="20dp"
+                                android:textColor="@android:color/white"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="5dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="-65dp"
+        android:outlineProvider="none"
+        android:background="@color/material_blue_grey_800">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center_vertical">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Risparmio energia:"
+                    android:id="@+id/textView2023"
+                    android:textSize="22dp"
+                    android:gravity="left"
+                    android:layout_weight="0.2"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="0"
+                    android:id="@+id/preview_txt_difference"
+                    android:textSize="30dp"
+                    android:outlineProvider="none"
+                    android:textColor="@android:color/white"
+                    android:layout_weight="0.8"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="€"
+                    android:id="@+id/textView12"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/white"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp" />
+
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:id="@+id/preview_layout_decoration"></FrameLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

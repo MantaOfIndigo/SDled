@@ -57,7 +57,7 @@
                     android:id="@+id/daily_hour_txt_beginam"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:textColor="@color/custom_dark_grey"
+                    android:textColor="@color/custom_dark_blue"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.1" />
 
@@ -106,7 +106,7 @@
                     android:id="@+id/daily_hour_txt_endam"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:textColor="@color/custom_dark_grey"
+                    android:textColor="@color/custom_dark_blue"
                     android:layout_weight="0.7"
                     android:layout_gravity="center_vertical" />
 
@@ -176,7 +176,7 @@
                     android:id="@+id/daily_hour_txt_beginpm"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:textColor="@color/custom_dark_grey"
+                    android:textColor="@color/custom_dark_blue"
                     android:layout_weight="0.7"
                     android:layout_gravity="center_vertical" />
 
@@ -225,7 +225,7 @@
                     android:id="@+id/daily_hour_txt_endpm"
                     android:layout_margin="5dp"
                     android:padding="5dp"
-                    android:textColor="@color/custom_dark_grey"
+                    android:textColor="@color/custom_dark_blue"
                     android:layout_weight="0.7"
                     android:layout_gravity="center_vertical" />
 

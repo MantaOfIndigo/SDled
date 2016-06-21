@@ -9,7 +9,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:background="@color/custom_bright_blue"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+        android:id="@+id/gallery_item_frametohide">
 
         <ImageView
             android:layout_width="90dp"

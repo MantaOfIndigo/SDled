@@ -25,6 +25,39 @@ public class StandardWorkHours extends Application {
 
     private static int daysInYear;
 
+    public static void set24hStandard(){
+        setStandards(1);
+    }
+
+    public static void setSolarStandard(){
+
+    }
+
+    public static void setStandards(DailyHours value){
+        for(int i = 0; i <  7; i++){
+            Calendar bAMstandard = Calendar.getInstance();
+            bAMstandard.set(Calendar.HOUR_OF_DAY, value.getBeginAMHour());
+            bAMstandard.set(Calendar.MINUTE, value.getBeginAMMinute());
+
+            Calendar eAMstandard = Calendar.getInstance();
+            eAMstandard.set(Calendar.HOUR_OF_DAY, value.geteEndAMHour());
+            eAMstandard.set(Calendar.MINUTE, value.getEndAMMinute());
+
+            Calendar bPMstandard = Calendar.getInstance();
+            bPMstandard.set(Calendar.HOUR_OF_DAY, value.getBeginPMHour());
+            bPMstandard.set(Calendar.MINUTE, value.getBeginPMMinute());
+
+            Calendar ePMstandard = Calendar.getInstance();
+            ePMstandard.set(Calendar.HOUR_OF_DAY, value.getEndPMHour());
+            ePMstandard.set(Calendar.MINUTE, value.getEndPMMinute());
+
+            standardWeek[i] = new DailyHours();
+            standardWeek[i].setAMTurn(bAMstandard, eAMstandard);
+            standardWeek[i].setPMTurn(bPMstandard, ePMstandard);
+            standardWeek[i].setEnable(true);
+        }
+    }
+
     public static int daysCount(){
         Calendar currYear = Calendar.getInstance();
 
@@ -79,6 +112,44 @@ public class StandardWorkHours extends Application {
         }
     }
 
+    //value:
+    //0 - manual
+    //1 - 24
+    //2 - solar
+    private static void setStandards(int value){
+        if(value == 1) {
+            for(int i = 0; i <  7; i++){
+                standardWeek[i] = new DailyHours();
+                standardWeek[i].set24hTurn();
+                standardWeek[i].setEnable(true);
+            }
+        }else {
+
+            for (int i = 0; i < 7; i++) {
+                Calendar bAMstandard = Calendar.getInstance();
+                bAMstandard.set(Calendar.HOUR_OF_DAY, 9);
+                bAMstandard.set(Calendar.MINUTE, 0);
+
+                Calendar eAMstandard = Calendar.getInstance();
+                eAMstandard.set(Calendar.HOUR_OF_DAY, 13);
+                eAMstandard.set(Calendar.MINUTE, 0);
+
+                Calendar bPMstandard = Calendar.getInstance();
+                bPMstandard.set(Calendar.HOUR_OF_DAY, 14);
+                bPMstandard.set(Calendar.MINUTE, 0);
+
+                Calendar ePMstandard = Calendar.getInstance();
+                ePMstandard.set(Calendar.HOUR_OF_DAY, 19);
+                ePMstandard.set(Calendar.MINUTE, 0);
+
+                standardWeek[i] = new DailyHours();
+                standardWeek[i].setAMTurn(bAMstandard, eAMstandard);
+                standardWeek[i].setPMTurn(bPMstandard, ePMstandard);
+                standardWeek[i].setEnable(true);
+            }
+        }
+    }
+
     public static DailyHours getCustomDayStandard(String dayName){
         switch (dayName){
             case "Lunedì":
@@ -115,7 +186,9 @@ public class StandardWorkHours extends Application {
     }
 
     public static int getHoursNumber(Boolean custom){
-        if(custom){
+        if(SolarYearHours.isSolarYear()){
+            return SolarYearHours.calculateSolarHours();
+        }else if(custom){
             return calculateCustomHours(customWeek);
         }else {
             return calculateCustomHours(standardWeek);
@@ -293,6 +366,7 @@ public class StandardWorkHours extends Application {
         }
         return true;
     }
+
 
 
     public static void addSingleDay(Date newDay){

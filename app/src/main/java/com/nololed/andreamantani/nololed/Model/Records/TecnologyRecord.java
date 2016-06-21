@@ -49,17 +49,20 @@ public class TecnologyRecord extends LinearLayout {
 
         Log.v("check", "scale: " + img.getWidth() + " " + img.getHeight());
 
-        File sd = new File(values.getPhoto().getPath());
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        File sd = new File(values.getPreviewPhotoPath());
+        if(sd != null) {
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 
-        bmOptions.inSampleSize = 2;
-        Bitmap bitmap = BitmapFactory.decodeFile(sd.getAbsolutePath(), bmOptions);
+            bmOptions.inSampleSize = 2;
+            Bitmap bitmap = BitmapFactory.decodeFile(sd.getAbsolutePath(), bmOptions);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
-        img.setImageBitmap(bitmap);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+            img.setImageBitmap(bitmap);
+        }
         //bitmap.recycle();
 
     }
+
 
     public LinearLayout getMainLayout(){
         return this.main;

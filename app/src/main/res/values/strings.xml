@@ -2,7 +2,7 @@
     <string name="app_name">SDled</string>
     <string name="app_add_holidays">Aggiungi Ferie</string>
     <string name="app_daily_workhours">Orario Giornaliero</string>
-    <string name="app_new_system"></string>
+    <string name="app_new_system">Nuova attività</string>
     <string name="app_profile_tecnology">Tecnologia</string>
     <string name="app_tecnology_list">Lista Tecnologie</string>
     <string name="app_single_day">Giorni feriali</string>
@@ -12,4 +12,13 @@
     <string name="dialog_copy">Copia</string>
     <string name="dialog_modify">Modifica</string>
     <string name="app_images">Immagini</string>
+    <string name="ora_solare">Imposta l\'orario standard in base all\'ora solare</string>
+    <string name="app_preview">Anteprima Preventivo</string>
+    <string name="app_set_hour">Imposta orario</string>
+    <string name="app_mode">Modalità orario</string>
+    <string name="app_family">Famiglie di tecnologie</string>
+    <string name="app_model">Seleziona modello</string>
+    <string name="string_expand">ESPANDI</string>
+    <string name="impianto_led">Impianto LED</string>
+    <string name="impianto_corrente">Impianto corrente</string>
 </resources>

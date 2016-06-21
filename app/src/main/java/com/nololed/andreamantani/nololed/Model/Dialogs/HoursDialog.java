@@ -3,7 +3,6 @@ package com.nololed.andreamantani.nololed.Model.Dialogs;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,20 +12,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
-import com.nololed.andreamantani.nololed.DailyWorkhoursActivity;
 import com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont;
-import com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont;
 import com.nololed.andreamantani.nololed.Model.DailyHours;
-import com.nololed.andreamantani.nololed.ProfileTecnologyActivity;
 import com.nololed.andreamantani.nololed.R;
 import com.nololed.andreamantani.nololed.Utils.CalendarUtils;
 import com.nololed.andreamantani.nololed.Utils.DailyTimePickerDialog;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
-import com.nololed.andreamantani.nololed.WeekSetUpActivity;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by andreamantani on 17/04/16.
@@ -104,7 +97,7 @@ public class HoursDialog extends LinearLayout {
         beginAMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getBeginAMHour(), myStandard.getBeginAMMinute()));
         endAMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.geteEndAMHour(), myStandard.getEndAMMinute()));
         beginPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getBeginPMHour(), myStandard.getBeginPMMinute()));
-        endPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.geteEndPMHour(), myStandard.getEndPMMinute()));
+        endPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getEndPMHour(), myStandard.getEndPMMinute()));
 
         beginAM.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +161,7 @@ public class HoursDialog extends LinearLayout {
                         checkDates(ePMCalendar, 3);
 
                     }
-                }, myStandard.geteEndPMHour(), myStandard.getEndPMMinute(), true, 13, 23);
+                }, myStandard.getEndPMHour(), myStandard.getEndPMMinute(), true, 13, 23);
                 time.show();
             }
         });

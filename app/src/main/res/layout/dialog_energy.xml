@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/custom_bright_blue">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/custom_bright_blue">
+
+        <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Costo energia"
+            android:id="@+id/textView22"
+            android:textSize="28dp"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp" />
+
+        <NumberPicker
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/energy_number_picker"
+            android:layout_margin="15dp"
+            android:layout_gravity="center_horizontal"></NumberPicker>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="ANNULLA"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/energy_no"
+                android:layout_weight="0.5"
+                android:background="#bcbcbc"
+                android:textColor="#f3f3f3"/>
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="AVANTI"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/energy_ok"
+                android:layout_weight="0.5"
+                android:background="@android:color/transparent"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

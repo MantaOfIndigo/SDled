@@ -1,9 +1,13 @@
 package com.nololed.andreamantani.nololed.Model;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
@@ -56,6 +60,18 @@ public class Tecnology implements Serializable {
         this.usageHourInYear = hourInYear;
     }
 
+    public String getPreviewPhotoPath(){
+        File folder = new File(this.photo.getPath());
+
+        if (folder.isDirectory()) {
+            for (File child : folder.listFiles()) {
+                return child.getAbsolutePath();
+            }
+        }
+
+        return "";
+
+    }
 
     private String replaceSpecialChars(String value){
         String returner = value.replace(",", "COMMA5");
@@ -91,6 +107,22 @@ public class Tecnology implements Serializable {
     }
     public int getUsageHourInYear(){
         return this.usageHourInYear;
+    }
+
+    public int getUsageHourForPrice(){
+        int result = 0;
+
+        if(this.usageDaysInYear > 0){
+            double daysWithoutRest = usageDaysInYear - (usageDaysInYear % 7);
+            double daysNoRest = daysWithoutRest / 7;
+
+            result = (int) (usageHourInYear * daysNoRest);
+
+        }else{
+            result = -1;
+        }
+
+        return result;
     }
 
     public void setLocation(String value){

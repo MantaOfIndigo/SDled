@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_model_list"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Nell&apos;eventualità in cui non combacino, modificare il valore della potenza nel riquadro sottostante"
+            android:id="@+id/textView10"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#969696"
+            android:textSize="14dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:textAlignment="center"
+            android:paddingTop="8dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="-60dp"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/custom_bright_blue">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomItalicFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Modello"
+                android:id="@+id/select_model_selected"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.9"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="15dp"
+                android:textSize="22dp" />
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomEditTextFont
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/select_model_power"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_vertical" />
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="W"
+                android:id="@+id/textView31"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

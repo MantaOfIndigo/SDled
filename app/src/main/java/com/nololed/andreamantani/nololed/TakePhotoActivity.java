@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Created by andreamantani on 28/03/16.
@@ -30,9 +31,13 @@ public class TakePhotoActivity extends AppCompatActivity {
     SystemTec sys;
     File filePhoto;
     String abspath;
+    String tecFolderName;
+    Integer tecImageId;
     Uri tecPhotoPath;
 
     boolean isMorePhoto;
+    boolean firstTime;
+    boolean gallery;
 
     int newPhoto = -1;
 
@@ -49,6 +54,31 @@ public class TakePhotoActivity extends AppCompatActivity {
             this.isMorePhoto = true;
         }else{
             this.isMorePhoto = false;
+            Toast.makeText(TakePhotoActivity.this, "Fotografa una tecnologia", Toast.LENGTH_LONG).show();
+        }
+
+        if(extras.getString("origin") != null) {
+            if (extras.getString("origin").equals("first")) {
+                firstTime = true;
+            } else {
+                firstTime = false;
+            }
+
+            if (extras.getString("origin").equals("gallery")) {
+                gallery = true;
+            } else {
+                gallery = false;
+            }
+        }
+
+
+        if(!gallery){
+            if(extras.getString("tec_folder_id") != null){
+                tecFolderName = extras.getString("tec_folder_id");
+                //tecImageId = extras.getInt("tec_image_id");
+            }else{
+                tecFolderName = "";
+            }
         }
 
         if(extras.getInt("new_photo") == 0) {
@@ -61,14 +91,42 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     }
 
+    private void returnFunction(){
+        Toast.makeText(TakePhotoActivity.this, "Si è verificato un errore", Toast.LENGTH_SHORT).show();
+
+        if(firstTime){
+            Intent back = new Intent(this, AddSingleHolidays.class);
+            startActivity(back);
+            return;
+
+        }else if(gallery){
+            Intent back = new Intent(this, ImagesListActivity.class);
+            startActivity(back);
+            return;
+        } else{
+
+            if(isMorePhoto){
+                Intent back = new Intent(this, ImagesListActivity.class);
+                back.putExtra("url_image", abspath);
+                startActivity(back);
+            }else if(!isMorePhoto){
+                Intent back = new Intent(this, ProfileTecnologyActivity.class);
+                back.putExtra("url_image", abspath);
+                back.putExtra("new_photo", newPhoto);
+                startActivity(back);
+            }
+        }
+
+
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
-            Toast.makeText(TakePhotoActivity.this, "Si è verificato un errore", Toast.LENGTH_SHORT).show();
-            return;
+             returnFunction();
         }
 
-        if (requestCode == PICK_FROM_CAMERA) {
+        if (requestCode == PICK_FROM_CAMERA && resultCode != RESULT_CANCELED) {
             /*Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             newPhoto.setImageBitmap(imageBitmap);
@@ -79,23 +137,45 @@ public class TakePhotoActivity extends AppCompatActivity {
             try{
                 StoreImage(this, Uri.parse(filePhoto.getAbsolutePath()), filePhoto);
                 abspath = filePhoto.getAbsolutePath();
+                String imagePath = "";
+
+                if(!gallery && abspath != ""){
+                    String[] splitFolder = abspath.split(Pattern.quote(File.separator));
+                    imagePath = splitFolder[splitFolder.length -1];
+                    splitFolder[splitFolder.length - 1] = "";
+                    abspath = "";
+
+                    for(int i = 0; i < splitFolder.length-1; i++){
+                        abspath += splitFolder[i] + File.separator;
+                    }
+                }
+
+                if(isMorePhoto){
+                    Intent back = new Intent(this, ImagesListActivity.class);
+                    back.putExtra("url_image", abspath);
+                    if(!gallery){
+                        back.putExtra("url_image_photo", imagePath);
+                    }
+                    startActivity(back);
+                }else if(!isMorePhoto){
+                    Intent back = new Intent(this, ProfileTecnologyActivity.class);
+                    back.putExtra("url_image", abspath);
+                    back.putExtra("new_photo", newPhoto);
+                    if(!gallery){
+                        back.putExtra("url_image_photo", imagePath);
+                    }
+                    startActivity(back);
+                }
 
             }catch(Exception e){
                 e.printStackTrace();
+                returnFunction();
             }
+
+
         }
 
 
-        if(isMorePhoto){
-            Intent back = new Intent(this, ImagesListActivity.class);
-            back.putExtra("url_image", abspath);
-            startActivity(back);
-        }else {
-            Intent back = new Intent(this, ProfileTecnologyActivity.class);
-            back.putExtra("url_image", abspath);
-            back.putExtra("new_photo", newPhoto);
-            startActivity(back);
-        }
 
         /*if (requestCode == PICK_FROM_CAMERA) {
             Bundle extras = data.getExtras();
@@ -115,8 +195,27 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         String dir = sys.getName().replace(" ", "_");
         dir = dir.replace(".", "DOT8");
+        dir += Utilities.getImageCounter();
+
         Log.v("lastcheck", dir);
-        String tecPhotoStringPath = Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator +  dir + Utilities.getImageCounter() + ".jpg";
+        String tecPhotoStringPath = Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator +  dir + ".png";
+        // Se viene da profile aggiungo una cartella davanti al file
+
+        if(!gallery){
+            if(tecFolderName == "") {
+                File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator + "tecFolder" + Utilities.getImageCounter());
+                boolean success = true;
+                if (!folder.exists()) {
+                    success = folder.mkdir();
+                }
+
+                if(success){
+                    tecPhotoStringPath = folder.getAbsolutePath()  + File.separator + dir + ".png";
+                }
+            }else{
+                tecPhotoStringPath = tecFolderName + File.separator + dir + ".png";
+            }
+        }
 
         Log.v("lastcheck", "tec: " + tecPhotoStringPath);
         filePhoto = new File(tecPhotoStringPath);
@@ -126,8 +225,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tecPhotoPath);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-
-            Toast.makeText(TakePhotoActivity.this, "Fotografa una tecnologia", Toast.LENGTH_LONG).show();
 
 
             startActivityForResult(takePictureIntent, PICK_FROM_CAMERA);

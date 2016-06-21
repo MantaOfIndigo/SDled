@@ -1,5 +1,7 @@
 package com.nololed.andreamantani.nololed.Model;
 
+import android.util.Log;
+
 import com.nololed.andreamantani.nololed.Utils.CalendarUtils;
 
 import java.util.ArrayList;
@@ -49,6 +51,24 @@ public class DailyHours {
         this.turns[1] = new Turn(beginTurn, endTurn);
     }
 
+    public void set24hTurn(){
+        Calendar begin1 = CalendarUtils.newInitializedCalendar();
+        Calendar end1 = CalendarUtils.newInitializedCalendar();
+
+        begin1.set(Calendar.HOUR, 0);
+        end1.set(Calendar.HOUR, 12);
+
+        this.turns[0] = new Turn(begin1, end1);
+
+        Calendar begin2 = CalendarUtils.newInitializedCalendar();
+        Calendar end2 = CalendarUtils.newInitializedCalendar();
+
+        begin2.set(Calendar.HOUR, 12);
+        end2.set(Calendar.HOUR, 0);
+
+        this.turns[1] = new Turn(begin2, end2);
+    }
+
     public Turn[] getTurnsList(){
         return this.turns;
     }
@@ -86,7 +106,7 @@ public class DailyHours {
         return returner.get(Calendar.MINUTE);
     }
 
-    public int geteEndPMHour(){
+    public int getEndPMHour(){
         Calendar returner = this.turns[1].getEnd();
         return returner.get(Calendar.HOUR_OF_DAY);
     }

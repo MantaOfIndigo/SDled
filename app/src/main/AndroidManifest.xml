@@ -14,9 +14,24 @@
         android:theme="@style/AppTheme">
         <activity android:name=".HomeActivity">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".LoadingActivity"
+            android:label="@string/app_tecnology_list" >
+
         </activity>
         <activity
             android:name=".SystemTecsActivity"
+            android:label="@string/app_tecnology_list" >
+        </activity>
+        <activity
+            android:name=".SetupSolarActivity"
             android:label="@string/app_tecnology_list" >
         </activity>
         <activity
@@ -29,7 +44,7 @@
         </activity>
         <activity
             android:name=".NewSystemActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_new_system" >
         </activity>
         <activity
         android:name=".ProfileTecnologyActivity"
@@ -67,11 +82,34 @@
         <activity
             android:name=".ImagesListActivity"
             android:label="@string/app_images" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".HourSetUpActivity"
+            android:label="@string/app_set_hour" >
+        </activity>
+        <activity
+            android:name=".SetupModeActivity"
+            android:label="@string/app_mode" >
+
+        </activity>
+        <activity
+            android:name=".SelectFamilyActivity"
+            android:label="@string/app_family" >
+
+
+
+        </activity>
+        <activity
+            android:name=".SelectModelActivity"
+            android:label="@string/app_model" >
+
+        </activity>
+        <activity
+            android:name=".PreviewEstimateActivity"
+            android:label="@string/app_preview" >
+
         </activity>
     </application>
 

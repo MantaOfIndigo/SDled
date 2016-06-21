@@ -4,11 +4,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecFamilyData;
+import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecFamilyTable;
+import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecModelRecord;
+import com.nololed.andreamantani.nololed.Utils.Constants;
+import com.nololed.andreamantani.nololed.Utils.DatabaseDataManager;
+import com.nololed.andreamantani.nololed.Utils.GalleryItems;
+import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
 
 import java.io.File;
 import java.io.Serializable;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -18,6 +30,7 @@ public class SystemTec implements Serializable{
     private List<Tecnology> tecList;
     //private List<HolidayPeriod> periodList;
     private String name;
+
     public SystemTec(){
         this.name = "";
         this.tecList = new ArrayList<Tecnology>();
@@ -31,6 +44,8 @@ public class SystemTec implements Serializable{
         returner = returner.replace("}", "GRAPHC");
         returner = returner.replace("[","SQUAREO");
         returner = returner.replace("]", "SQUAREC");
+        returner = returner.replace("-", "COMMALINE9");
+        returner = returner.replace("?", "DOT7");
 
         this.name = returner;
 
@@ -44,7 +59,65 @@ public class SystemTec implements Serializable{
         this.tecList.add(newItem);
     }
 
+
+    public double calculatePrice(){
+        double price = 0;
+
+        for(int i = 0; i < this.tecList.size();i++){
+            price += this.getPricePartial(this.tecList.get(i));
+        }
+
+        return price;
+
+
+    }
+
+    public List<Double> calculateLedPrices(){
+        List<Double> prices = new ArrayList<>();
+
+        for(int i = 0; i < this.tecList.size(); i++){
+            TecnologyModel item = DatabaseDataManager.getObjectFromName(tecList.get(i).getInfos().getModel());
+            int hour = 0;
+
+            if(SolarYearHours.isSolarYear()){
+                hour = SolarYearHours.getHourInYear();
+
+            }else{
+                hour = tecList.get(i).getUsageHourForPrice();
+            }
+
+            prices.add(getPartialPrice(item.ledPower, hour,tecList.get(i).getQta()/*, item.getPrice()*/));
+        }
+
+        return prices;
+    }
+
+    public double getTotalLedPrice(List<Double> prices){
+        double total = 0;
+        for(int i = 0; i < prices.size(); i++){
+            total += prices.get(i);
+        }
+
+        return total;
+
+    }
+
+    private void setTecnologySolarDaysAndHours(){
+        for(int i = 0; i < this.tecList.size() ; i++){
+            this.tecList.get(i).setUsageHourInYear(SolarYearHours.getHourInYear());
+            this.tecList.get(i).setUsageDaysInYear(SolarYearHours.getDayInYear());
+        }
+    }
+
     public void sendMail(AppCompatActivity from){
+
+
+        DecimalFormat formatter = new DecimalFormat("#0.00");
+        formatter.setRoundingMode(RoundingMode.FLOOR);
+
+        if(SolarYearHours.isSolarYear()){
+            setTecnologySolarDaysAndHours();
+        }
         //need to "send multiple" to get more than one attachment
         final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         emailIntent.setType("text/plain");
@@ -52,11 +125,36 @@ public class SystemTec implements Serializable{
                 new String[]{"mantaniandrea@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Preventivo " + replaceSpecialChars().toUpperCase());
 
-        String mailText = "";
+        String mailText = "COSTO TOTALE ENERGIA IMPIANTO CORRENTE:     " + formatter.format(this.calculatePrice()) + "\n";
+        mailText += "COSTO TOTALE ENERGIA IMPIANTO LED:     " + formatter.format(this.getTotalLedPrice(this.calculateLedPrices())) + "\n";
+        mailText += "COSTO NOLEGGIO MENSILE:     " + formatter.format(this.getMonthlyRateForNolo()) + "\n";
+        mailText += "COSTO NOLEGGIO ANNUALE:     " + formatter.format(this.getMonthlyRateForNolo() * 12)  + "\n\n";
+
         for(Tecnology item : this.tecList){
             String[] splitter = item.getPhoto().getPath().split(Pattern.quote(File.separator));
-            mailText += "Foto tecnologia: " + splitter[splitter.length-1] + "\n" + "Potenza: " + item.getInfos().getPowerString() + "\n" + "Ore al giorno: " + item.getInfos().getTonalityString() + "\n" + "Giorni all'anno: " + item.getInfos().getDaysForYearString() + "\n" + "Quantità: " + item.getQta() + "\n" + "Descrizione : " + item.getLocation() + "\n";
-            mailText += "-------------------------------\n\n";
+            mailText += "Foto tecnologia: " + splitter[splitter.length-1] + "\n";
+            mailText += "Modello: " + item.getInfos().getModel() + "\n";
+            mailText += "Quantità: "+ item.getQta() + "\n";
+            mailText += "Potenza: " + DatabaseDataManager.getObjectFromName(item.getInfos().getModel()).getModelPower();
+            mailText += "Tonalità luce: " + item.getInfos().getTonalityString() + "\n";
+            mailText += "Ore settimanali : " + item.getUsageHourInYear() + "\n";
+            mailText += "Giorni all'anno : " + item.getUsageDaysInYear() + "\n";
+            mailText += "Locazione : " + item.getLocation() + "\n";
+            mailText += "\nCosto parziale : " + formatter.format(getPricePartial(item));
+            mailText += "\n-------------------------------\n\n";
+        }
+
+
+        List<String> paths = GalleryItems.getImages();
+
+        if(paths.size() > 0){
+
+            mailText += "\n\n" + "Immagini aggiuntive del sito:" + "\n";
+
+            for(int i = 0; i < paths.size();i++){
+                String[] splitterUrl = paths.get(i).split(Pattern.quote(File.separator));
+                mailText += "immagine " + i + " : " + splitterUrl[splitterUrl.length - 1] + "\n";
+            }
         }
 
         emailIntent.putExtra(Intent.EXTRA_TEXT, mailText);
@@ -64,24 +162,85 @@ public class SystemTec implements Serializable{
 
 
 
-        //has to be an ArrayList
+
         ArrayList<Uri> uris = new ArrayList<Uri>();
-        //convert from paths to Android friendly Parcelable Uri's
+
+        List<List<Uri>> imagesForMail = new ArrayList<>();
+
+        long byteCounter = 0;
+
         for (Tecnology item : this.tecList)
         {
-            File fileIn = new File(item.getPhoto().getPath());
-            Uri u = Uri.fromFile(fileIn);
-            uris.add(u);
+            File directory = new File(item.getPhoto().getPath());
+            if(directory.isDirectory()) {
+                for (File child : directory.listFiles()) {
+                    byteCounter += child.length();
+
+                    Uri u = Uri.fromFile(child);
+                    if((byteCounter - (byteCounter % 1024)) / 1024 > Constants.getByteMailLimit()){
+                        imagesForMail.add((List<Uri>) uris.clone());
+                        uris.clear();
+                        byteCounter = 0;
+                    }
+
+                    uris.add(u);
+                }
+            }
+
         }
+
+        if(paths.size() > 0){
+            for(String url : paths){
+                File fileIn = new File(url);
+                Uri u = Uri.fromFile(fileIn);
+                byteCounter += fileIn.length();
+
+
+                if((byteCounter - (byteCounter % 1024)) / 1024 > Constants.getByteMailLimit()){
+                    imagesForMail.add((List<Uri>) uris.clone());
+                    uris.clear();
+                    byteCounter = 0;
+                }
+
+                uris.add(u);
+            }
+        }
+
+
         emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
         from.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+        if(imagesForMail.size() > 0){
+            //Toast.makeText(from, "Verranno inviate più mail per tutti gli allegati", Toast.LENGTH_SHORT);
+        }
+
+        for(int i = 0; i < imagesForMail.size(); i++){
+            Intent emailContentIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+            emailContentIntent.setType("text/plain");
+            emailContentIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+                    new String[]{"mantaniandrea@gmail.com"});
+
+            emailContentIntent.putExtra(Intent.EXTRA_SUBJECT, "Preventivo " + replaceSpecialChars().toUpperCase() + " - Allegati");
+
+            ArrayList<Uri> currentList = (ArrayList<Uri>) imagesForMail.get(i);
+
+            emailContentIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, currentList);
+            from.startActivity(Intent.createChooser(emailContentIntent, "Send mail..."));
+
+        }
+
+
+
     }
+
+
+
 
     private String replaceSpecialChars(){
         String ret = this.name.replace("DOT8", ".");
         ret = ret.replace("DOT7", "?");
         ret = ret.replace("_", " ");
-        ret = ret.replace("DOT8", ".");
+        ret = ret.replace("COMMALINE9", "-");
         ret = ret.replace("COMMA5", ",");
         ret = ret.replace("GRAPHO", "{");
         ret = ret.replace("GRAPHC", "}");
@@ -138,5 +297,55 @@ public class SystemTec implements Serializable{
             }
         }
         return false;
+    }
+
+    public double getPricePartial(Tecnology item){
+        double partialPrice = 0;
+
+        TecnologyModel model = DatabaseDataManager.getObjectFromName(item.getInfos().getModel());
+        int power = model.getModelPower();
+        power += (power * 15) /100;
+
+        if(SolarYearHours.isSolarYear()){
+            int hoursInYear = SolarYearHours.getHourInYear();
+            partialPrice = hoursInYear * power * item.getQta();
+        }else{
+            partialPrice = item.getUsageHourForPrice() * power * item.getQta();
+        }
+        partialPrice = partialPrice / 1000;
+
+        return partialPrice * Constants.getPriceForEnergy();
+    }
+
+
+    public double getPartialPrice(int power, int hours, int qta/*,double price*/){
+        double partialPrice = 0;
+
+        partialPrice = hours * power * qta;
+        partialPrice = partialPrice / 1000;
+        //partialPrice += (qta * price);
+
+        return partialPrice * Constants.getPriceForEnergy();
+    }
+
+    public List<TecnologyModel> getLedSystem(){
+        List<TecnologyModel> returner = new ArrayList<>();
+
+        for(int i = 0; i < this.tecList.size(); i++ ){
+            returner.add(DatabaseDataManager.getObjectFromName(tecList.get(i).getInfos().getModel()));
+        }
+
+        return returner;
+    }
+
+    public double getMonthlyRateForNolo(){
+        double monthlyRate = 0;
+        for(int i = 0; i < this.tecList.size(); i++) {
+            TecnologyModel item = DatabaseDataManager.getObjectFromName(tecList.get(i).getInfos().getModel());
+
+            monthlyRate += item.price  * tecList.get(i).getQta();
+
+        }
+            return monthlyRate;
     }
 }

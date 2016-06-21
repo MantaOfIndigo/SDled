@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,8 +49,6 @@ public class AddHolidaysPeriodsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_holidays);
-
-        StandardWorkHours.setStandards();
 
 
         if (StandardWorkHours.getPeriods().size() > 0){
@@ -294,8 +293,27 @@ public class AddHolidaysPeriodsActivity extends AppCompatActivity {
 
 
 
+
     @Override
     public void onBackPressed() {
-        return;
+        new AlertDialog.Builder(this)
+                .setTitle("Uscita")
+                .setMessage("Sei sicuro di voler uscire?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        AddHolidaysPeriodsActivity.this.finish();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

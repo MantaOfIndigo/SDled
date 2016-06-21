@@ -20,7 +20,7 @@
             android:id="@+id/textView9"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:textColor="@color/custom_dark_grey"
+            android:textColor="@color/custom_dark_blue"
             android:layout_weight="0.7"
             android:layout_gravity="center_vertical" />
 

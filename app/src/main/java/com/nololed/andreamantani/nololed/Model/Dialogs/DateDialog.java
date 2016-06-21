@@ -109,6 +109,14 @@ public class DateDialog extends LinearLayout {
                             calendarView.setMaxDate(maxSetter.getTimeInMillis());
                         }
 
+                        if(controlCurrentDate(minSetter, maxSetter)){
+                            calendarView.setDate(CalendarUtils.newInitializedCalendar().getTime().getTime());
+                        }else{
+                            maxSetter.add(Calendar.DAY_OF_YEAR, -1);
+                            calendarView.setDate(maxSetter.getTime().getTime());
+                        }
+
+
                     } else {
                         minSetter.set(Calendar.MONTH, c.get(Calendar.MONTH));
                         minSetter.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
@@ -126,7 +134,15 @@ public class DateDialog extends LinearLayout {
                             calendarView.setMaxDate(maxSetter.getTimeInMillis());
                             calendarView.setMinDate(minSetter.getTimeInMillis());
                         }
+
+                        if(controlCurrentDate(minSetter, maxSetter)){
+                            calendarView.setDate(CalendarUtils.newInitializedCalendar().getTime().getTime());
+                        }else{
+                            minSetter.add(Calendar.DAY_OF_YEAR, 1);
+                            calendarView.setDate(minSetter.getTime().getTime());
+                        }
                     }
+
                     frameCalendarLayout.addView(calendarView);
 
                     return true;
@@ -177,6 +193,21 @@ public class DateDialog extends LinearLayout {
             dialog.dismiss();
         }
     };
+
+    private boolean controlCurrentDate(Calendar min, Calendar max){
+        Calendar current = CalendarUtils.newInitializedCalendar();
+
+        if(current.getTime().before(min.getTime())){
+            return false;
+        }
+
+        if(current.getTime().after(max.getTime())){
+            return false;
+        }
+
+        return true;
+
+    }
 
 
     private Calendar getDate(){

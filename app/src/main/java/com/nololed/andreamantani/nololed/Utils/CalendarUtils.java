@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class CalendarUtils {
 
-    private static Calendar getDatePart(Date date){
+    public static Calendar getDatePart(Date date){
         Calendar cal = Calendar.getInstance();       // get calendar instance
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);            // set hour to midnight
@@ -38,6 +39,39 @@ public class CalendarUtils {
         return daysBetween;
     }
 
+    public static long secondsBetween(Calendar first, Calendar last){
+
+        int minutesBetween = 0;
+        Calendar cursor = (Calendar) first.clone();
+        Calendar sndCursor = (Calendar) last.clone();
+
+
+        if(cursor.before(sndCursor)){
+            while(cursor.before(sndCursor)){
+                cursor.add(Calendar.MINUTE, 1);
+                minutesBetween++;
+            }
+        }else{
+            while(sndCursor.before(cursor)){
+                sndCursor.add(Calendar.MINUTE, 1);
+                minutesBetween--;
+            }
+        }
+
+        return TimeUnit.MINUTES.toSeconds(minutesBetween);
+
+    }
+
+    public static long minutesOfNight(long secondsOfLight){
+        long secondsInHour = TimeUnit.HOURS.toSeconds(1);
+        long secondsInDay = secondsInHour * 24;
+
+        // differenza + 2 ore: un ora accesa dopo alba un ora accesa prima del tramonto
+        // rimangono i minuti in cui le tecnologie dovranno rimanere accese
+        return (secondsInDay - secondsOfLight) + 120;
+
+    }
+
     private static String getDayOfMonth(Date value){
         return (String) android.text.format.DateFormat.format("dd", value); //20
     }
@@ -51,7 +85,7 @@ public class CalendarUtils {
 
     public static Calendar newInitializedCalendar(){
         Calendar newitem = Calendar.getInstance();
-        newitem.set(Calendar.HOUR, newitem.getMinimum(Calendar.HOUR));
+        newitem.set(Calendar.HOUR, 0);
         newitem.set(Calendar.MINUTE, newitem.getMinimum(Calendar.MINUTE));
         newitem.set(Calendar.SECOND, newitem.getMinimum(Calendar.SECOND));
         newitem.set(Calendar.MILLISECOND, newitem.getMinimum(Calendar.MILLISECOND));
@@ -128,7 +162,7 @@ public class CalendarUtils {
         if (first.get(Calendar.HOUR_OF_DAY) <= last.get(Calendar.HOUR_OF_DAY)){
 
             if(first.get(Calendar.HOUR_OF_DAY) == last.get(Calendar.HOUR_OF_DAY)){
-                if(first.get(Calendar.MINUTE) < last.get(Calendar.MINUTE)){
+                if(first.get(Calendar.MINUTE) <= last.get(Calendar.MINUTE)){
                     return true;
                 }
             }else{

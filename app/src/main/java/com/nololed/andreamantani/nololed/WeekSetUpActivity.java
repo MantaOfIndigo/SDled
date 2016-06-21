@@ -1,7 +1,10 @@
 package com.nololed.andreamantani.nololed;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.nololed.andreamantani.nololed.Model.Records.DayRecord;
+import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 
 import java.util.ArrayList;
@@ -43,9 +47,17 @@ public class WeekSetUpActivity extends AppCompatActivity {
     private void setEnableDays(){
         for(int i = 0; i < recordController.size(); i++){
             if(recordController.get(i).getToggleButtonState()){
-                StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), true);
+                if(SolarYearHours.isSolarYear()){
+                    SolarYearHours.enableDayOfWeek(recordController.get(i).getDayName(), true);
+                }else {
+                    StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), true);
+                }
             }else{
-                StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), false);
+                if(SolarYearHours.isSolarYear()){
+                    SolarYearHours.enableDayOfWeek(recordController.get(i).getDayName(), false);
+                }else {
+                    StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), false);
+                }
             }
         }
     }
@@ -54,12 +66,15 @@ public class WeekSetUpActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
+
                 setEnableDays();
 
-                Intent intent = new Intent(WeekSetUpActivity.this, TakePhotoActivity.class);
-                intent.putExtra("new_photo", 0);
+                if(SolarYearHours.isSolarYear()){
+                    SolarYearHours.removeDaysOfWeek();
+                }
 
-                Log.v("daycount", "count: " + StandardWorkHours.getHoursNumber(false));
+                Intent intent = new Intent(WeekSetUpActivity.this, AddHolidaysPeriodsActivity.class);
+                intent.putExtra("new_photo", 0);
 
                 startActivity(intent);
         }
@@ -83,17 +98,41 @@ public class WeekSetUpActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            for(int i = 0; i < scroll.getChildCount(); i++){
-                View row = scroll.getChildAt(i);
-                if(((DayRecord) row).getSetHourLayout()  == v){
-                    Intent weekIntent = new Intent(WeekSetUpActivity.this, DailyWorkhoursActivity.class);
-                    weekIntent.putExtra("day_name", ((DayRecord) row).getDayName());
+            if(!SolarYearHours.isSolarYear()) {
+                for (int i = 0; i < scroll.getChildCount(); i++) {
+                    View row = scroll.getChildAt(i);
+                    if (((DayRecord) row).getSetHourLayout() == v) {
+                        Intent weekIntent = new Intent(WeekSetUpActivity.this, DailyWorkhoursActivity.class);
+                        weekIntent.putExtra("day_name", ((DayRecord) row).getDayName());
 
-                    startActivity(weekIntent);
+                        startActivity(weekIntent);
+                    }
                 }
             }
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Uscita")
+                .setMessage("Sei sicuro di voler uscire?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        WeekSetUpActivity.this.finish();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
 }

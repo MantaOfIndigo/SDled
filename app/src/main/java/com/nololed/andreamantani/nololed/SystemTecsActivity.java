@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -72,16 +73,23 @@ public class SystemTecsActivity extends AppCompatActivity{
                 new AlertDialog.Builder(SystemTecsActivity.this)
                         .setTitle("Attenzione")
                         .setMessage("Vuoi aggiungere delle foto del sito?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Aggiungi", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Utilities.setSystem(sys);
                                 Intent photo = new Intent(SystemTecsActivity.this, TakePhotoActivity.class);
                                 photo.putExtra("is_more_photo", true);
+                                photo.putExtra("origin", "gallery");
                                 startActivity(photo);
                             }
-                        }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        }).setNeutralButton("No", new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sendEmail();
+                                Utilities.setSystem(sys);
+                                startActivity(new Intent(SystemTecsActivity.this, PreviewEstimateActivity.class));
+                            }
+                        }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
                             }
                         }
                 ).setIcon(android.R.drawable.ic_dialog_alert).show();
@@ -126,17 +134,16 @@ public class SystemTecsActivity extends AppCompatActivity{
 
     public void sendEmail(){
         sys.sendMail(SystemTecsActivity.this);
-
     }
 
     public void addNewTecnology(View v){
         Intent intent = new Intent(SystemTecsActivity.this , ProfileTecnologyActivity.class);
         startActivity(intent);
     }
+
     private View.OnClickListener tablerowOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             for(int i = 0; i < tbLayout.getChildCount(); i++){
                 final View row = tbLayout.getChildAt(i);
                 if(((TecnologyRecord) row).getMainLayout() == v){
@@ -178,11 +185,9 @@ public class SystemTecsActivity extends AppCompatActivity{
     private View.OnClickListener deleteIndexRow = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             for(int i = 0; i < tbLayout.getChildCount(); i++){
                 final View row = tbLayout.getChildAt(i);
                 if(((TecnologyRecord) row).getDeleteLayout()  == v){
-
                     new AlertDialog.Builder(SystemTecsActivity.this)
                             .setTitle("Attenzione")
                             .setMessage("Sicuro di voler rimuovere la tecnologia dall'elenco?")
@@ -216,7 +221,25 @@ public class SystemTecsActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        return;
+        new AlertDialog.Builder(this)
+                .setTitle("Uscita")
+                .setMessage("Sei sicuro di voler uscire?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        SystemTecsActivity.this.finish();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }

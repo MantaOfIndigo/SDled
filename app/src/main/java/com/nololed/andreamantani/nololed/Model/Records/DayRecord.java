@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont;
 import com.nololed.andreamantani.nololed.Model.DailyHours;
 import com.nololed.andreamantani.nololed.R;
+import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 
 /**
@@ -41,11 +42,17 @@ public class DayRecord extends LinearLayout {
         toggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                StandardWorkHours.getDayStandard(getDayName()).setEnable(isChecked);
+                if(!SolarYearHours.isSolarYear()) {
+                    StandardWorkHours.getDayStandard(getDayName()).setEnable(isChecked);
+                }else{
+                    SolarYearHours.toggleDayOfWeek(getDayName());
+                }
             }
         });
 
-        setToggleButtonState(StandardWorkHours.getDayStandard(this.getDayName()).getEnable());
+        if(!SolarYearHours.isSolarYear()) {
+            setToggleButtonState(StandardWorkHours.getDayStandard(this.getDayName()).getEnable());
+        }
 
     }
 
@@ -58,7 +65,6 @@ public class DayRecord extends LinearLayout {
 
         CustomExtraLightFont dayTitleSetter = (CustomExtraLightFont) findViewById(R.id.day_record_day_string);
         dayTitleSetter.setText(dayName);
-        Log.v("week", dayName);
 
         TextView dayRecordHour = (TextView) findViewById(R.id.day_record_hours);
         dayRecordHour.setText(StandardWorkHours.getCustomDayStandard(dayName).toString());
@@ -82,7 +88,11 @@ public class DayRecord extends LinearLayout {
     private void setStandards(){
         DailyHours myStandard = StandardWorkHours.getDayStandard(this.getDayName());
         TextView dayRecordHour = (TextView) findViewById(R.id.day_record_hours);
-        dayRecordHour.setText(myStandard.toString());
+        if(SolarYearHours.isSolarYear()){
+            dayRecordHour.setText("Dal tramonto all'alba");
+        }else {
+            dayRecordHour.setText(myStandard.toString());
+        }
     }
     public FrameLayout getSetHourLayout(){
         return this.setHourLayout;

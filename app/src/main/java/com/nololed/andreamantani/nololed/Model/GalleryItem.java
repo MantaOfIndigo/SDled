@@ -3,6 +3,7 @@ package com.nololed.andreamantani.nololed.Model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -54,6 +55,36 @@ public class GalleryItem extends LinearLayout {
         image.setImageBitmap(bitmap);
     }
 
+    public GalleryItem(Context context, AttributeSet attrs, OnClickListener listener, String imagePath, OnClickListener delete, int dimension){
+        super(context, attrs);
+
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.gallery_item, this);
+
+
+        this.index = index;
+        this.imagePath = imagePath;
+
+
+        deleteLayout = (FrameLayout) findViewById(R.id.gallery_item_delete);
+        deleteLayout.setOnClickListener(delete);
+
+        this.setOnClickListener(listener);
+        ImageView image = (ImageView) findViewById(R.id.gallery_item_image);
+
+        File sd = new File(imagePath);
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+
+        bmOptions.inSampleSize = 2;
+        Bitmap bitmap = BitmapFactory.decodeFile(sd.getAbsolutePath(), bmOptions);
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, 90, 90, true);
+        image.setImageBitmap(bitmap);
+
+
+        this.setLayoutParams(new FrameLayout.LayoutParams(dimension + 40 , dimension));
+    }
+
     public GalleryItem(Context context, AttributeSet attrs, OnClickListener listener){
         super(context, attrs);
 
@@ -63,9 +94,11 @@ public class GalleryItem extends LinearLayout {
 
         FrameLayout hider = (FrameLayout) findViewById(R.id.gallery_item_delete);
         hider.setVisibility(View.GONE);
+        FrameLayout setTransparent = (FrameLayout) findViewById(R.id.gallery_item_frametohide);
+        setTransparent.setBackgroundColor(Color.TRANSPARENT);
 
         ImageView image = (ImageView) findViewById(R.id.gallery_item_image);
-        image.setImageResource(R.drawable.plusitem);
+        image.setImageResource(R.drawable.plusiconnew);
 
         image.setOnClickListener(listener);
 
