@@ -14,26 +14,30 @@ public class OldTecFamilyData extends Application {
 
     public static String[] familyNames =
             {
+                    "Lampade E27/14",
                     "Neon",
+                    "Reglette T5",
+                    "Pannelli",
                     "Incasso Compatte",
                     "Incasso Ioduri",
                     "Mr16/Incasso",
                     "AR111",
                     "Plafoniere Stagne",
-                    "Plafoniere Stagne Custom",
                     "Proiettori Ioduri",
                     "Plafoni Ind Ioduri"
             };
 
     public static String[] familyCods =
             {
+                    "LAMP",
                     "NEON",
+                    "REGLE",
+                    "PANEL",
                     "INCCOM",
                     "INCIOD",
                     "MR16",
                     "AR111",
                     "PLAST",
-                    "PLASTC",
                     "PROIOD",
                     "PLAIOD"
             };
@@ -48,5 +52,7 @@ public class OldTecFamilyData extends Application {
             R.drawable.tec_6,
             R.drawable.tec_7,
             R.drawable.tec_8,
+            R.drawable.tec_9,
+            R.drawable.tec_10
     };
 }

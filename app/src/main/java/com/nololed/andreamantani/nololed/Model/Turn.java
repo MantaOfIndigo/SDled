@@ -19,8 +19,21 @@ public class Turn {
         this.hoursCount = countHours();
     }
 
+    public Turn(int hoursCount){
+        this.hoursCount = hoursCount;
+        this.begin = CalendarUtils.newInitializedCalendar();
+        this.end = begin;
+    }
     private int countHours(){
-        return Math.abs(end.get(Calendar.HOUR_OF_DAY) - begin.get(Calendar.HOUR_OF_DAY));
+        if(end.get(Calendar.HOUR_OF_DAY) == 0){
+            if(begin.get(Calendar.HOUR_OF_DAY) != 0) {
+                return Math.abs(24 - begin.get(Calendar.HOUR_OF_DAY));
+            }else{
+                return 0;
+            }
+        }else {
+            return Math.abs(end.get(Calendar.HOUR_OF_DAY) - begin.get(Calendar.HOUR_OF_DAY));
+        }
     }
 
     public Calendar getBegin(){

@@ -302,7 +302,7 @@ public class AddHolidaysPeriodsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         AddHolidaysPeriodsActivity.this.finish();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        Intent intent = new Intent(AddHolidaysPeriodsActivity.this, HomeActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

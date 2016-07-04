@@ -21,4 +21,5 @@
     <string name="string_expand">ESPANDI</string>
     <string name="impianto_led">Impianto LED</string>
     <string name="impianto_corrente">Impianto corrente</string>
+    <string name="euro">€</string>
 </resources>

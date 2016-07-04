@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_mail"
         android:title="Save"
-        android:icon="@android:drawable/ic_dialog_email"
+        android:icon="@drawable/mail"
         app:showAsAction="ifRoom"
         />
 </menu>

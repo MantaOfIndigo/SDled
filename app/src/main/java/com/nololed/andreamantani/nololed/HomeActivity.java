@@ -8,9 +8,14 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.nololed.andreamantani.nololed.Utils.DatabaseDataManager;
 import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
@@ -20,10 +25,18 @@ public class HomeActivity extends AppCompatActivity {
     boolean flag1 = false;
     boolean flag2 = false;
 
+    RelativeLayout rootLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_home);
+
+        rootLayout = (RelativeLayout)findViewById(R.id.root_layout);
+        View.inflate(this, R.layout.splash_loading, rootLayout);
+
         new LoadSolarHours().execute();
         new LoadInnerDatabase().execute();
     }
@@ -81,20 +94,20 @@ public class HomeActivity extends AppCompatActivity {
         protected void onPreExecute() {
             ImageView button = (ImageView) findViewById(R.id.home_button_add);
             button.setVisibility(View.GONE);
+
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            ProgressBar tester = (ProgressBar) findViewById(R.id.loading_bar);
-
 
             try {
                 synchronized (this) {
                     flag1 = true;
                     if(flag2 == true) {
-                        tester.setVisibility(View.GONE);
                         ImageView button = (ImageView) findViewById(R.id.home_button_add);
                         button.setVisibility(View.VISIBLE);
+
+                        rootLayout.removeView(findViewById(R.id.splash_layout));
                     }
 
                 }
@@ -129,16 +142,15 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result){
-            ProgressBar tester = (ProgressBar) findViewById(R.id.loading_bar);
-
 
             try {
                 synchronized (this) {
                     flag2 = true;
                     if(flag1 == true) {
-                        tester.setVisibility(View.GONE);
                         ImageView button = (ImageView) findViewById(R.id.home_button_add);
                         button.setVisibility(View.VISIBLE);
+
+                        rootLayout.removeView(findViewById(R.id.splash_layout));
                     }
 
                 }

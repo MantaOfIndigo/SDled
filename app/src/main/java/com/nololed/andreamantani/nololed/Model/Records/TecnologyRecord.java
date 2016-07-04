@@ -35,6 +35,7 @@ public class TecnologyRecord extends LinearLayout {
         TextView txtTitle = (TextView) findViewById(R.id.record_title);
         TextView txtModel = (TextView) findViewById(R.id.record_model);
         TextView txtLocation = (TextView) findViewById(R.id.record_location);
+        TextView txtPower = (TextView) findViewById(R.id.record_power);
         this.main = (LinearLayout) findViewById(R.id.record_main);
         this.delete = (LinearLayout) findViewById(R.id.record_delete);
         this.main.setOnClickListener(mainListener);
@@ -43,6 +44,7 @@ public class TecnologyRecord extends LinearLayout {
         txtTitle.setText(String.valueOf(values.getQta()));
         txtModel.setText("Modello: " + values.getInfos().getModel());
         txtLocation.setText("Locazione: " + values.getLocation());
+        txtPower.setText(String.valueOf(values.getInfos().getPower()));
         //img.setImageURI(values.getPhoto());
         Log.v("tecnology", "image: " + values.getPhoto().getPath());
 

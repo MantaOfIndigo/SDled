@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/custom_med_grey">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+
+        <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Inizio orario:"
+            android:id="@+id/inizioorarioam"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="5dp"
+            android:textSize="19dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/custom_dark_blue"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/daily_hour_begin_am">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="7:00"
+                android:id="@+id/daily_hour_txt_beginam"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:layout_weight="0.7"
+                android:layout_gravity="center_vertical"
+                android:textSize="23dp" />
+
+            <ToggleButton
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:text="New ToggleButton"
+                android:id="@+id/toggleButton6"
+                android:background="@drawable/mini_check"
+                android:textOn=""
+                android:textOff=""
+                android:layout_margin="5dp"
+                android:layout_gravity="center_vertical"
+                android:checked="true"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Fine orario:"
+            android:id="@+id/fineorarioam"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="19dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/custom_dark_blue"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/daily_hour_end_am">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="7:00"
+                android:id="@+id/daily_hour_txt_endam"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:layout_weight="0.7"
+                android:layout_gravity="center_vertical"
+                android:textSize="23dp" />
+
+            <ToggleButton
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:text="New ToggleButton"
+                android:id="@+id/daily_hour_toggleAM"
+                android:background="@drawable/ic_mini_toggle"
+                android:textOn=""
+                android:textOff=""
+                android:layout_margin="5dp"
+                android:layout_gravity="center_vertical"
+                android:checked="true"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:text="SALVA"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/button34"
+                android:background="@android:color/transparent"
+                android:textColor="#ffffff"
+                android:onClick="saveClosingHour"
+                android:textSize="25dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

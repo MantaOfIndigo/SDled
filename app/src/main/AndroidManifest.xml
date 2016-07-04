@@ -12,7 +12,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".HomeActivity"
+            android:screenOrientation="portrait">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +23,12 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".EstimateActivity"
+            android:screenOrientation="portrait">
+
+
+        </activity>
+
         <activity
             android:name=".LoadingActivity"
             android:label="@string/app_tecnology_list" >
@@ -33,14 +41,13 @@
         <activity
             android:name=".SetupSolarActivity"
             android:label="@string/app_tecnology_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SelectModelActivity" />
         </activity>
         <activity
             android:name=".TakePhotoActivity"
             android:label="@string/app_name" >
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
         </activity>
         <activity
             android:name=".NewSystemActivity"
@@ -56,14 +63,14 @@
         <activity
             android:name=".AddHolidaysPeriodsActivity"
             android:label="@string/app_name" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SelectModelActivity" />
 
         </activity>
         <activity
             android:name=".WeekSetUpActivity"
             android:label="@string/app_week_list" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AddSingleHolidays" />
         </activity>
         <activity
             android:name=".DailyWorkhoursActivity"
@@ -88,10 +95,16 @@
         <activity
             android:name=".HourSetUpActivity"
             android:label="@string/app_set_hour" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SelectModelActivity" />
         </activity>
         <activity
             android:name=".SetupModeActivity"
             android:label="@string/app_mode" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NewSystemActivity" />
 
         </activity>
         <activity
@@ -111,6 +124,12 @@
             android:label="@string/app_preview" >
 
         </activity>
+
+        <activity
+        android:name=".TecnologyDetailActivity"
+        android:label="@string/app_preview" >
+
+    </activity>
     </application>
 
 </manifest>

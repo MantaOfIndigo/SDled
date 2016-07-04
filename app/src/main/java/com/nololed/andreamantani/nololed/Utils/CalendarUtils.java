@@ -158,19 +158,22 @@ public class CalendarUtils {
         return dtFormatter.format(returner.getTime());
     }
 
-    public static boolean checkHours(Calendar first, Calendar last){
+    public static int checkHours(Calendar first, Calendar last){
+        //  begin maggiore = 1, uguale = 0, minore = -1
         if (first.get(Calendar.HOUR_OF_DAY) <= last.get(Calendar.HOUR_OF_DAY)){
 
             if(first.get(Calendar.HOUR_OF_DAY) == last.get(Calendar.HOUR_OF_DAY)){
-                if(first.get(Calendar.MINUTE) <= last.get(Calendar.MINUTE)){
-                    return true;
+                if(first.get(Calendar.MINUTE) < last.get(Calendar.MINUTE)){
+                    return 1;
+                }else if(first.get(Calendar.MINUTE) == last.get(Calendar.MINUTE)){
+                    return 0;
                 }
             }else{
-                return true;
+                return 1;
             }
         }
 
-        return false;
+        return -1;
     }
 
 

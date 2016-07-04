@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView7"
+        android:fillViewport="false"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="50dp"
+            android:background="@android:color/transparent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="50dp"
+                android:background="@android:color/transparent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="350dp"
+                    android:id="@+id/imageView8"
+                    android:src="@drawable/sd_logo" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="30dp">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Nome modello:"
+                    android:id="@+id/textView34"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/custom_darker_grey" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/detail_model_name"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/custom_darker_grey" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="10dp">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Potenza:"
+                        android:id="@+id/textView36"
+                        android:textSize="25dp"
+                        android:layout_weight="0.7"
+                        android:textColor="@color/custom_darker_grey" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberSigned"
+                        android:ems="3"
+                        android:id="@+id/detail_power_tec"
+                        android:layout_weight="0.3"
+                        android:focusableInTouchMode="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RIPRISTINA IL VALORE DI LISTINO"
+                        android:id="@+id/detail_reset_power"
+                        android:textSize="18dp"
+                        android:background="@color/custom_bright_blue"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="50dp"
+                        android:textColor="@android:color/white"
+                        android:onClick="resetPowerValue" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="30dp">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Famiglia:"
+                    android:id="@+id/textView362"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/custom_darker_grey" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/detail_family_name"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/custom_darker_grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="10dp">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Prezzo tecnologia:"
+                        android:id="@+id/textView365"
+                        android:textSize="25dp"
+                        android:layout_weight="0.7"
+                        android:textColor="@color/custom_darker_grey" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberSigned"
+                        android:ems="3"
+                        android:id="@+id/detail_model_maintenance"
+                        android:layout_weight="0.3"
+                        android:focusableInTouchMode="true"/>
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/euro"
+                        android:id="@+id/textView424"
+                        android:layout_marginLeft="15dp"
+                        android:textSize="18dp"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right">
+
+                    <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RIPRISTINA IL VALORE ORIGINALE"
+                        android:id="@+id/detail_reset_maintenance"
+                        android:textSize="18dp"
+                        android:background="@color/custom_bright_blue"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="50dp"
+                        android:textColor="@android:color/white"
+                        android:onClick="resetMaintenanceValue" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="30dp">
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Manutenzione annuale:"
+                    android:id="@+id/textView3724"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/custom_darker_grey"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/detail_model_price"
+                    android:textSize="25sp"
+                    android:layout_weight="0.5"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/custom_darker_grey"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/euro"
+                    android:id="@+id/textView42"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="18dp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="30dp">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="LED sostitutivo:"
+                    android:id="@+id/textView363"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/custom_darker_grey" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/detail_sobstitutive_name"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/custom_darker_grey" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent"
+                android:layout_marginRight="30dp">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Potenza LED:"
+                    android:id="@+id/textView37"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/custom_darker_grey" />
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/detail_power_led"
+                    android:textSize="25dp"
+                    android:layout_weight="0.5"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/custom_darker_grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/transparent">
+
+                <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Foto famiglia tecnologia:"
+                    android:id="@+id/textView35"
+                    android:textSize="25dp"
+                    android:textColor="@color/custom_darker_grey"
+                    android:layout_weight="0.5"
+                    android:layout_marginTop="20dp" />
+
+                <ImageView
+                    android:layout_width="400dp"
+                    android:layout_height="400dp"
+                    android:id="@+id/detail_image"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.5"
+                    android:layout_marginTop="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

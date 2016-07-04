@@ -76,6 +76,19 @@ public class HolidayPeriod implements Serializable{
         return cal.get(Calendar.DAY_OF_MONTH);
     }
 
+    public Calendar getBeginCalendar(){
+        Calendar returner = CalendarUtils.newInitializedCalendar();
+        returner.setTime(this.begin);
+        return returner;
+    }
+
+    public Calendar getEndCalendar(){
+        Calendar returner = CalendarUtils.newInitializedCalendar();
+        returner.setTime(this.end);
+        return returner;
+    }
+
+
     public boolean equals(HolidayPeriod obj) {
         if(getMonth(this.getBegin()) == getMonth(obj.getBegin())) {
             if (getDays(this.getBegin()) == getDays(obj.getBegin())) {

@@ -14,6 +14,7 @@ import com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont;
 import com.nololed.andreamantani.nololed.Model.Records.DayRecord;
 import com.nololed.andreamantani.nololed.ProfileTecnologyActivity;
 import com.nololed.andreamantani.nololed.R;
+import com.nololed.andreamantani.nololed.Utils.Constants;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 import com.nololed.andreamantani.nololed.WeekSetUpActivity;
 
@@ -29,6 +30,8 @@ public class WeekDialog extends LinearLayout {
     Context contextDialog;
     Dialog currDialog;
     Context backContext;
+
+
 
     List<DayRecord> recordController;
 
@@ -59,7 +62,6 @@ public class WeekDialog extends LinearLayout {
             }
         });
 
-
         StandardWorkHours.setCustomStandards();
         recordController = new ArrayList<>();
         populateScroll();
@@ -74,11 +76,15 @@ public class WeekDialog extends LinearLayout {
         scroll = (LinearLayout) findViewById(R.id.weekly_scroll_layout);
         String[] weekName = new String[]{"Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"};
 
+        boolean[] daysEnabled = Constants.getDayStandard();
+
         for(int i = 0; i < weekName.length; i++){
             DayRecord newItem = new DayRecord(contextDialog, null, weekName[i], i, setHoursListener, true);
-            if(!StandardWorkHours.getCustomDayStandard(weekName[i]).getEnable()){
+
+            if (!StandardWorkHours.getCustomDayStandard(weekName[i]).getEnable()) {
                 newItem.setToggleButtonState(false);
             }
+
             scroll.addView(newItem);
             recordController.add(newItem);
         }

@@ -15,13 +15,30 @@ public class DailyHours {
 
     private Turn[] turns;
     private boolean enable;
+    private boolean oneTurn;
 
     public DailyHours(){
         this.turns = new Turn[2];
         this.enable = true;
+        this.oneTurn = false;
+    }
+
+    public DailyHours(DailyHours item){
+        this.turns = new Turn[2];
+        this.enable = item.getEnable();
+        this.oneTurn = item.getOneTurn();
+
+        this.turns = item.getTurnsList();
     }
 
 
+    public boolean getOneTurn(){
+        if(this.oneTurn){
+            return true;
+        }else {
+            return false;
+        }
+    }
     public int getHoursNumber(){
         if(enable) {
             return this.turns[0].getHoursCount() + this.turns[1].getHoursCount();
@@ -51,34 +68,51 @@ public class DailyHours {
         this.turns[1] = new Turn(beginTurn, endTurn);
     }
 
+    public void setOneTurn(Calendar beginTurn, Calendar endTurn){
+        this.turns[0] = new Turn(beginTurn, endTurn);
+        this.turns[1] = new Turn(0);
+        this.oneTurn = true;
+    }
+
     public void set24hTurn(){
         Calendar begin1 = CalendarUtils.newInitializedCalendar();
         Calendar end1 = CalendarUtils.newInitializedCalendar();
 
-        begin1.set(Calendar.HOUR, 0);
-        end1.set(Calendar.HOUR, 12);
+        begin1.set(Calendar.HOUR_OF_DAY, 0);
+        end1.set(Calendar.HOUR_OF_DAY, 12);
 
         this.turns[0] = new Turn(begin1, end1);
 
         Calendar begin2 = CalendarUtils.newInitializedCalendar();
         Calendar end2 = CalendarUtils.newInitializedCalendar();
 
-        begin2.set(Calendar.HOUR, 12);
-        end2.set(Calendar.HOUR, 0);
+        begin2.set(Calendar.HOUR_OF_DAY, 12);
+        end2.set(Calendar.HOUR_OF_DAY, 0);
 
         this.turns[1] = new Turn(begin2, end2);
     }
 
     public Turn[] getTurnsList(){
-        return this.turns;
+        return this.turns.clone();
     }
 
     public String toString(){
-        return turns[0].toString() + " / " + turns[1].toString();
+
+        if(this.oneTurn){
+            return  turns[0].toString();
+        }else if(turns[1].getHoursCount() == 0) {
+            return  turns[0].toString();
+        }else {
+            return turns[0].toString() + " / " + turns[1].toString();
+        }
     }
 
     public boolean getEnable(){
-        return this.enable;
+        if(this.enable){
+            return true;
+        }else{
+            return false;
+        }
     }
     public int getBeginAMHour(){
         Calendar returner = this.turns[0].getBegin();

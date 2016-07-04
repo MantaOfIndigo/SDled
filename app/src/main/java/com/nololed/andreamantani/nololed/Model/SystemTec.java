@@ -1,18 +1,19 @@
 package com.nololed.andreamantani.nololed.Model;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecFamilyData;
-import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecFamilyTable;
-import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecModelRecord;
+import com.nololed.andreamantani.nololed.PreviewEstimateActivity;
 import com.nololed.andreamantani.nololed.Utils.Constants;
 import com.nololed.andreamantani.nololed.Utils.DatabaseDataManager;
 import com.nololed.andreamantani.nololed.Utils.GalleryItems;
 import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
+import com.nololed.andreamantani.nololed.Utils.Utilities;
 
 import java.io.File;
 import java.io.Serializable;
@@ -20,7 +21,6 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -104,7 +104,9 @@ public class SystemTec implements Serializable{
 
     private void setTecnologySolarDaysAndHours(){
         for(int i = 0; i < this.tecList.size() ; i++){
-            this.tecList.get(i).setUsageHourInYear(SolarYearHours.getHourInYear());
+            int[] hoursInWeek = new int[1];
+            hoursInWeek[0] = SolarYearHours.getHourInYear();
+            this.tecList.get(i).setUsageHourInWeek(hoursInWeek);
             this.tecList.get(i).setUsageDaysInYear(SolarYearHours.getDayInYear());
         }
     }
@@ -122,11 +124,12 @@ public class SystemTec implements Serializable{
         final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         emailIntent.setType("text/plain");
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
-                new String[]{"mantaniandrea@gmail.com"});
+                new String[]{"tecnico@laluceanoleggio.com", "stefano.d@sdled.it"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Preventivo " + replaceSpecialChars().toUpperCase());
 
         String mailText = "COSTO TOTALE ENERGIA IMPIANTO CORRENTE:     " + formatter.format(this.calculatePrice()) + "\n";
         mailText += "COSTO TOTALE ENERGIA IMPIANTO LED:     " + formatter.format(this.getTotalLedPrice(this.calculateLedPrices())) + "\n";
+        mailText += "COSTO MANUTENZIONE:    " + formatter.format(this.calculateMaintenanceCost()) + "\n";
         mailText += "COSTO NOLEGGIO MENSILE:     " + formatter.format(this.getMonthlyRateForNolo()) + "\n";
         mailText += "COSTO NOLEGGIO ANNUALE:     " + formatter.format(this.getMonthlyRateForNolo() * 12)  + "\n\n";
 
@@ -135,12 +138,13 @@ public class SystemTec implements Serializable{
             mailText += "Foto tecnologia: " + splitter[splitter.length-1] + "\n";
             mailText += "Modello: " + item.getInfos().getModel() + "\n";
             mailText += "Quantità: "+ item.getQta() + "\n";
-            mailText += "Potenza: " + DatabaseDataManager.getObjectFromName(item.getInfos().getModel()).getModelPower();
+            mailText += "Potenza: " + DatabaseDataManager.getObjectFromName(item.getInfos().getModel()).getModelPower()+ "\n";
             mailText += "Tonalità luce: " + item.getInfos().getTonalityString() + "\n";
-            mailText += "Ore settimanali : " + item.getUsageHourInYear() + "\n";
+            mailText += "Ore annuali : " + item.getUsageHourForPrice() + "\n";
             mailText += "Giorni all'anno : " + item.getUsageDaysInYear() + "\n";
             mailText += "Locazione : " + item.getLocation() + "\n";
-            mailText += "\nCosto parziale : " + formatter.format(getPricePartial(item));
+            mailText += "\nCosto parziale : " + formatter.format(getPricePartial(item)) + "\n";
+            mailText += "Costo manutenzione annuale : " + formatter.format(item.calculateMaintenanceCost());
             mailText += "\n-------------------------------\n\n";
         }
 
@@ -231,6 +235,36 @@ public class SystemTec implements Serializable{
 
 
 
+
+
+
+
+    }
+
+    public void deleteFolder(){
+        String folderPath = Utilities.getSystem().getName();
+
+        String folderName = folderPath.replace(" ", "_");
+        folderName = folderName.replace("?", "DOT7");
+        folderName = folderName.replace(".", "DOT8");
+
+        folderName = folderName.replace(".", "DOT8");
+
+        File folder = new File(Environment.getExternalStorageDirectory() +
+                File.separator + "Nololed" + File.separator + folderName);
+
+        deleteRecursive(folder);
+
+    }
+
+    private void deleteRecursive(File fileOrDirectory) {
+
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
+
     }
 
 
@@ -302,14 +336,17 @@ public class SystemTec implements Serializable{
     public double getPricePartial(Tecnology item){
         double partialPrice = 0;
 
+        int hourOfUsage = 0;
+
         TecnologyModel model = DatabaseDataManager.getObjectFromName(item.getInfos().getModel());
-        int power = model.getModelPower();
-        power += (power * 15) /100;
+
+        int power = item.getInfos().getPower();
 
         if(SolarYearHours.isSolarYear()){
-            int hoursInYear = SolarYearHours.getHourInYear();
-            partialPrice = hoursInYear * power * item.getQta();
+            hourOfUsage = SolarYearHours.getHourInYear();
+            partialPrice = hourOfUsage * power * item.getQta();
         }else{
+
             partialPrice = item.getUsageHourForPrice() * power * item.getQta();
         }
         partialPrice = partialPrice / 1000;
@@ -348,4 +385,19 @@ public class SystemTec implements Serializable{
         }
             return monthlyRate;
     }
+
+    public double calculateMaintenanceCost(){
+
+        double totalCost = 0;
+        double ol;
+
+        for(int i = 0; i < this.tecList.size(); i++){
+            totalCost += this.tecList.get(i).calculateMaintenanceCost();
+        }
+
+        return totalCost;
+
+    }
+
+
 }

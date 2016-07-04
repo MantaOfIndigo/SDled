@@ -32,7 +32,7 @@ public class DayRecord extends LinearLayout {
 
         CustomExtraLightFont dayTitleSetter = (CustomExtraLightFont) findViewById(R.id.day_record_day_string);
         dayTitleSetter.setText(dayName);
-        Log.v("week", dayName);
+
         this.dayName = dayName;
         this.setStandards();
         this.setHourLayout = (FrameLayout) findViewById(R.id.day_record_layout_listener);

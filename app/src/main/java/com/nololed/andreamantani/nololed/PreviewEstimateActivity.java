@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,6 +40,7 @@ import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by andreamantani on 08/05/16.
@@ -48,6 +50,7 @@ public class PreviewEstimateActivity extends AppCompatActivity implements Number
 
     String[] values = {"0.15","0.16","0.17","0.18","0.19","0.20","0.21","0.22","0.23","0.24","0.25","0.26","0.27"};
     Double energy = 0.0;
+    boolean noReturn = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +123,10 @@ public class PreviewEstimateActivity extends AppCompatActivity implements Number
 
 
         TextView differenceTxt = (TextView) findViewById(R.id.preview_txt_difference);
+        TextView maintenanceTxt = (TextView) findViewById(R.id.preview_maintenance_year);
+        TextView totalNoloCostTxt = (TextView) findViewById(R.id.preview_total_nolo_cost);
+        TextView totalCurrCostTxt = (TextView) findViewById(R.id.preview_total_current_cost);
+
 
 
 
@@ -128,14 +135,20 @@ public class PreviewEstimateActivity extends AppCompatActivity implements Number
 
         totalCurrent = Utilities.getSystem().calculatePrice();
 
+        double maintenanceCost = Utilities.getSystem().calculateMaintenanceCost();
 
-        double differencePrice = totalCurrent - totalLed;
+        double differencePrice = totalCurrent + maintenanceCost - totalLed;
         double monthlyRatePrice = Utilities.getSystem().getMonthlyRateForNolo();
+
+        double totalYearNoloCost =  totalLed + (monthlyRatePrice * 12);
 
         total.setText(formatter.format(totalCurrent));
         totalLedTxt.setText(formatter.format(totalLed));
         monthlyRateTxt.setText(formatter.format(monthlyRatePrice));
         yearlyRateTxt.setText(formatter.format(monthlyRatePrice * 12));
+        maintenanceTxt.setText(formatter.format(maintenanceCost));
+        totalNoloCostTxt.setText(formatter.format(totalYearNoloCost));
+        totalCurrCostTxt.setText(formatter.format(maintenanceCost + totalCurrent));
 
         FrameLayout decoration = (FrameLayout) findViewById(R.id.preview_layout_decoration);
 
@@ -206,7 +219,30 @@ public class PreviewEstimateActivity extends AppCompatActivity implements Number
 
     @Override
     public void onBackPressed(){
-        startActivity(new Intent(PreviewEstimateActivity.this, SystemTecsActivity.class));
+        if(noReturn) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Uscita")
+                    .setMessage("Sei sicuro di voler uscire?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            PreviewEstimateActivity.this.finish();
+
+                            Intent intent = new Intent(PreviewEstimateActivity.this, HomeActivity.class);
+                            intent.addCategory(Intent.CATEGORY_HOME);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }else {
+            startActivity(new Intent(PreviewEstimateActivity.this, SystemTecsActivity.class));
+        }
     }
 
     @Override
@@ -287,27 +323,28 @@ public class PreviewEstimateActivity extends AppCompatActivity implements Number
         @Override
         protected void onPostExecute(Void result){
             ProgressBar tester = (ProgressBar) findViewById(R.id.loading_bar);
+            try{
+                synchronized (this){
 
+                    wait(5000);
 
-            try {
-                    synchronized (this) {
-                        new AlertDialog.Builder(PreviewEstimateActivity.this)
-                                .setTitle("Eliminare foto?")
-                                .setMessage("Vuoi eliminare le fotografie dal dispositivo?")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        deleteFolder();
-                                    }
-                                }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        return;
-                                    }
+                    new AlertDialog.Builder(PreviewEstimateActivity.this)
+                            .setTitle("Eliminare foto?")
+                            .setMessage("Vuoi eliminare le fotografie dal dispositivo? Non potrai più effettuare modifiche al preventivo.")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    deleteFolder();
+                                    noReturn = true;
                                 }
-                        ).setIcon(android.R.drawable.ic_dialog_alert).show();
+                            }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    return;
+                                }
+                            }
+                    ).setIcon(android.R.drawable.ic_dialog_alert).show();
 
                 }
-
-            } catch (Exception e) {
+            }catch(Exception e){
                 e.printStackTrace();
             }
 

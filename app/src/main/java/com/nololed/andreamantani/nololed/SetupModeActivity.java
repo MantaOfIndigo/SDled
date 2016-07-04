@@ -21,6 +21,8 @@ public class SetupModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_mode);
 
+        SolarYearHours.deselectSolarCalendar();
+
         RelativeLayout lManual = (RelativeLayout) findViewById(R.id.mode_manual);
         RelativeLayout l24h = (RelativeLayout) findViewById(R.id.mode_24);
         RelativeLayout lSolar = (RelativeLayout) findViewById(R.id.mode_solar);
@@ -71,7 +73,7 @@ public class SetupModeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
+        /*new AlertDialog.Builder(this)
                 .setTitle("Uscita")
                 .setMessage("Sei sicuro di voler uscire?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -88,6 +90,6 @@ public class SetupModeActivity extends AppCompatActivity {
                 return;
             }
         }).setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+                .show();*/
     }
 }

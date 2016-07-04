@@ -5,6 +5,7 @@
         android:id="@+id/action_favorite"
         android:title="Save"
         app:showAsAction="ifRoom"
+        android:icon="@drawable/ok"
         />
 
 

@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.nololed.andreamantani.nololed.Model.Records.DayRecord;
+import com.nololed.andreamantani.nololed.Utils.Constants;
+import com.nololed.andreamantani.nololed.Utils.Costants;
 import com.nololed.andreamantani.nololed.Utils.SolarYearHours;
 import com.nololed.andreamantani.nololed.Utils.StandardWorkHours;
 
@@ -52,12 +54,17 @@ public class WeekSetUpActivity extends AppCompatActivity {
                 }else {
                     StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), true);
                 }
+
+                Constants.setDayStandard(true, i);
             }else{
                 if(SolarYearHours.isSolarYear()){
                     SolarYearHours.enableDayOfWeek(recordController.get(i).getDayName(), false);
                 }else {
                     StandardWorkHours.setEnableStandardDay(recordController.get(i).getDayName(), false);
                 }
+
+
+                Constants.setDayStandard(false, i);
             }
         }
     }
@@ -120,7 +127,8 @@ public class WeekSetUpActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         WeekSetUpActivity.this.finish();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+
+                        Intent intent = new Intent(WeekSetUpActivity.this, HomeActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

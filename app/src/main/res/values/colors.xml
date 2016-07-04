@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="custom_text_color_normal">#ffffffff</color>
     <color name="custom_light_grey">#ffb2b2b2</color>
-    <color name="custom_divider_color">#ffffff</color>
+    <color name="custom_divider_color">#f7dddddd</color>
     <color name="custom_button_background">#00000000</color>
     <color name="custom_blue">#c91897de</color>
     <color name="custom_bright_blue">#5dc4fd</color>
@@ -16,6 +16,7 @@
 
 
     <color name="custom_tp_main1">#d32f2f</color>
+    <color name="custom_splash_background">#9b1d1d1d</color>
     <color name="custom_red_error">#f75779</color>
     <color name="custom_tp_accent">#e2fcff</color>
     <color name="custom_darker_grey">#393939</color>
@@ -27,4 +28,6 @@
     <color name="custom_green">#68d2ab</color>
 
     <color name="custom_grey">#b7f1fb</color>
+
+    <color name="custom_real_grey">#52c8dd</color>
 </resources>

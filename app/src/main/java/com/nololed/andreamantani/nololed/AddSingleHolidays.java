@@ -14,9 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itextpdf.text.pdf.parser.Line;
 import com.nololed.andreamantani.nololed.Model.Dialogs.SingleDateDialog;
 import com.nololed.andreamantani.nololed.Model.Records.SingleDayRecord;
 import com.nololed.andreamantani.nololed.Utils.Algorithm;
@@ -86,11 +88,18 @@ public class AddSingleHolidays extends AppCompatActivity {
     }
 
     public void openCalendarDialog(View v){
+
+        LinearLayout rootLayout = (LinearLayout) findViewById(R.id.root_layout);
+        View.inflate(this, R.layout.splash_loading, rootLayout);
+
+
         Dialog singleDateDialog = new Dialog(AddSingleHolidays.this);
         singleDateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         singleDateDialog.setContentView(new SingleDateDialog(AddSingleHolidays.this, null, singleDateDialog));
 
         singleDateDialog.show();
+
+        rootLayout.removeView(findViewById(R.id.splash_layout));
     }
 
     private void setListeners(){
@@ -214,7 +223,8 @@ public class AddSingleHolidays extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         AddSingleHolidays.this.finish();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+
+                        Intent intent = new Intent(AddSingleHolidays.this, HomeActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

@@ -91,6 +91,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     }
 
+
     private void returnFunction(){
         Toast.makeText(TakePhotoActivity.this, "Si è verificato un errore", Toast.LENGTH_SHORT).show();
 
@@ -110,10 +111,17 @@ public class TakePhotoActivity extends AppCompatActivity {
                 back.putExtra("url_image", abspath);
                 startActivity(back);
             }else if(!isMorePhoto){
-                Intent back = new Intent(this, ProfileTecnologyActivity.class);
-                back.putExtra("url_image", abspath);
-                back.putExtra("new_photo", newPhoto);
-                startActivity(back);
+                if(abspath == null){
+                    Toast.makeText(TakePhotoActivity.this, "Scatta una foto", Toast.LENGTH_SHORT).show();
+                    Intent reset = getIntent();
+                    finish();
+                    startActivity(reset);
+                }else {
+                    Intent back = new Intent(this, ProfileTecnologyActivity.class);
+                    back.putExtra("url_image", abspath);
+                    back.putExtra("new_photo", newPhoto);
+                    startActivity(back);
+                }
             }
         }
 
@@ -203,17 +211,20 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         if(!gallery){
             if(tecFolderName == "") {
-                File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator + "tecFolder" + Utilities.getImageCounter());
+                String suffix = "tecFolder" + Utilities.getImageCounter();
+                File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Nololed" + File.separator + sys.getName().replace(" ", "_") + File.separator + suffix);
                 boolean success = true;
                 if (!folder.exists()) {
                     success = folder.mkdir();
                 }
 
                 if(success){
-                    tecPhotoStringPath = folder.getAbsolutePath()  + File.separator + dir + ".png";
+                    tecPhotoStringPath = folder.getAbsolutePath()  + File.separator + dir + "-" + suffix + ".png";
                 }
             }else{
-                tecPhotoStringPath = tecFolderName + File.separator + dir + ".png";
+                String[] splitter = tecFolderName.split(Pattern.quote("/"));
+                String suffix = splitter[splitter.length-1];
+                tecPhotoStringPath = tecFolderName + File.separator + dir + "-" + suffix +".png";
             }
         }
 

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecFamilyData;
 import com.nololed.andreamantani.nololed.InnerDatabase.TableModel.OldTecFamilyTable;
@@ -37,12 +38,15 @@ public class SelectModelActivity extends AppCompatActivity {
 
     EditText customPower;
     int newOrNot = -1;
+    String selectedModelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_model);
 
+
+        customPower = (EditText) findViewById(R.id.select_model_power);
 
         Bundle extra = getIntent().getExtras();
 
@@ -61,14 +65,17 @@ public class SelectModelActivity extends AppCompatActivity {
                         R.layout.family_record, list);
                 listview.setAdapter(adapter);
 
+                selectedModelName = values[0];
+                setCustomModelPower(selectedModelName);
+
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> parent, final View view,
                                             int position, long id) {
-                        String item = (String) parent.getItemAtPosition(position);
+                        selectedModelName = (String) parent.getItemAtPosition(position);
 
-                        setCustomModelPower(item);
+                        setCustomModelPower(selectedModelName);
 
                         /*Intent intnt = new Intent(SelectModelActivity.this, ProfileTecnologyActivity.class);
                         intnt.putExtra("selected_model", item);
@@ -93,28 +100,11 @@ public class SelectModelActivity extends AppCompatActivity {
     private void setCustomModelPower(String modelName){
 
         TextView selectedName = (TextView) findViewById(R.id.select_model_selected);
-        customPower = (EditText) findViewById(R.id.select_model_power);
 
         TecnologyModel item = DatabaseDataManager.getObjectFromName(modelName);
 
-        String prova = item.serializeModel();
-
-        TecnologyModel prova2 = item.deserializeModel(prova);
-
-        String[] splitter;
-
-        if(item.getFamilyName().equals(OldTecFamilyTable.getItemFromId("PLAST").getName()) ||
-                item.getFamilyName().equals(OldTecFamilyTable.getItemFromId("PLASTC").getName()) ||
-                item.getFamilyName().equals(OldTecFamilyTable.getItemFromId("INCCOM").getName())){
-            splitter = modelName.split(Pattern.quote("x"));
-
-            selectedName.setText(splitter[0] + "x");
-        }else{
-            selectedName.setText(item.getModelName());
-        }
-
-
-
+        selectedName.setText(item.getModelName());
+        customPower.setText(String.valueOf(item.getModelPowerWithTransformer()));
     }
 
     @Override
@@ -130,6 +120,15 @@ public class SelectModelActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
+                if(customPower.getText().equals("") || customPower.getText() == null || customPower.getText().equals("0")){
+                    Toast.makeText(this, "Potenza non valida", Toast.LENGTH_SHORT);
+                }else{
+                    Intent intnt = new Intent(SelectModelActivity.this, ProfileTecnologyActivity.class);
+                    intnt.putExtra("custom_power", Integer.parseInt(customPower.getText().toString()));
+                    intnt.putExtra("selected_model", selectedModelName);
+                    intnt.putExtra("new_or_not", newOrNot);
+                    startActivity(intnt);
+                }
 
         }
 

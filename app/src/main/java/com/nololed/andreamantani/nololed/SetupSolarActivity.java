@@ -119,7 +119,7 @@ public class SetupSolarActivity extends AppCompatActivity{
 
     private boolean checkDates(Calendar item, int index){
         boolean flag = true;
-        if(CalendarUtils.checkHours(bAMCalendar, eAMCalendar)){
+        if(CalendarUtils.checkHours(bAMCalendar, eAMCalendar) == 1){
             setUpRecordLayout(endAM, false);
         }else{
             setUpRecordLayout(endAM, true);
@@ -145,7 +145,7 @@ public class SetupSolarActivity extends AppCompatActivity{
 
 
         if(record == endAM && !error){
-            endAM.setBackgroundResource(R.color.custom_bright_blue);
+            endAM.setBackgroundResource(R.color.custom_dark_blue);
             ToggleButton tgBtn = (ToggleButton) findViewById(R.id.daily_hour_toggleAM);
             tgBtn.setChecked(true);
             endAMtxt.setTextColor(Color.parseColor("#FFFFFF"));
@@ -162,7 +162,8 @@ public class SetupSolarActivity extends AppCompatActivity{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         SetupSolarActivity.this.finish();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+
+                        Intent intent = new Intent(SetupSolarActivity.this, HomeActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

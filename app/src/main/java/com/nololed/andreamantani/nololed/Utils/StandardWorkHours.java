@@ -14,7 +14,7 @@ import java.util.List;
  * Created by andreamantani on 08/04/16.
  */
 public class StandardWorkHours extends Application {
-    private static DailyHours[] standardWeek = new DailyHours[7];
+    private static final DailyHours[] standardWeek = new DailyHours[7];
     private static List<Date> singleDays = new ArrayList<>();
     private static List<HolidayPeriod> periods = new ArrayList<>();
 
@@ -58,6 +58,55 @@ public class StandardWorkHours extends Application {
         }
     }
 
+    public static int calculateAccurateHoursInYear(int[] weeklyHours){
+        int returner = 0;
+
+        Calendar currentYear = CalendarUtils.newInitializedCalendar();
+        currentYear.set(Calendar.DAY_OF_YEAR, 0);
+
+        List<Calendar> holidays = new ArrayList<>();
+
+        if(periods.size() != 0) {
+            // devo togliere tutti i giorni disabilitati considerando le ferie
+            for (int i = currentYear.getMinimum(Calendar.DAY_OF_YEAR); i < currentYear.getMaximum(Calendar.DAY_OF_YEAR); i++) {
+                if (checkPeriodsIndexes(i)) {
+                    currentYear.set(Calendar.DAY_OF_YEAR, i);
+                    int dayOfWeekIndex = currentYear.get(Calendar.DAY_OF_WEEK);
+                    returner += weeklyHours[dayOfWeekIndex - 1];
+                }
+            }
+        }else{
+            for(int i = currentYear.getMinimum(Calendar.DAY_OF_YEAR); i < currentYear.getMaximum(Calendar.DAY_OF_YEAR); i++){
+                currentYear.set(Calendar.DAY_OF_YEAR, i);
+                int dayOfWeekIndex = currentYear.get(Calendar.DAY_OF_WEEK);
+                returner += weeklyHours[dayOfWeekIndex - 1];
+            }
+        }
+
+        for(int i = 0; i < singleDays.size(); i++){
+
+            Calendar singleDayHolidayIterator = CalendarUtils.newInitializedCalendar();
+            singleDayHolidayIterator.setTime(singleDays.get(i));
+
+            int singleDayOfWeekIndex = singleDayHolidayIterator.get(Calendar.DAY_OF_WEEK);
+
+            returner -= weeklyHours[singleDayOfWeekIndex - 1];
+        }
+
+        return returner;
+    }
+
+    private static boolean checkPeriodsIndexes(int index){
+
+        for (int i = 0; i < periods.size(); i++){
+            if(index >= periods.get(0).getBeginCalendar().get(Calendar.DAY_OF_YEAR) && index <= periods.get(0).getEndCalendar().get(Calendar.DAY_OF_YEAR)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static int daysCount(){
         Calendar currYear = Calendar.getInstance();
 
@@ -76,13 +125,14 @@ public class StandardWorkHours extends Application {
     }
 
     public static void setCustomStandards(){
+        customWeek = null;
         customWeek = new DailyHours[7];
 
+        customWeek = standardWeek.clone();
+
+        boolean[] daysEnabled = Constants.getDayStandard();
         for(int i = 0; i <  7; i++){
-            customWeek[i] = new DailyHours();
-            customWeek[i].setAMTurn(standardWeek[i].getBeginAMCalendar(), standardWeek[i].getEndAMCalendar());
-            customWeek[i].setPMTurn(standardWeek[i].getBeginPMCalendar(), standardWeek[i].getEndPMCalendar());
-            customWeek[i].setEnable(standardWeek[i].getEnable());
+            customWeek[i].setEnable(daysEnabled[i]);
         }
     }
 
@@ -171,12 +221,13 @@ public class StandardWorkHours extends Application {
         }
     }
 
-    private static int calculateCustomHours(DailyHours[] array){
-        int count = 0;
+    private static int[] calculateCustomHours(DailyHours[] array){
+        int[] count = new int[7];
         int countToRemove = 0;
         daysToRemove = 0;
+
         for(int i = 0 ; i < array.length; i++){
-            count += array[i].getHoursNumber();
+            count[i] = array[i].getHoursNumber();
             if(array[i].getHoursNumber() == 0){
                 daysToRemove++;
             }
@@ -185,9 +236,11 @@ public class StandardWorkHours extends Application {
         return count;
     }
 
-    public static int getHoursNumber(Boolean custom){
+    public static int[] getHoursNumber(Boolean custom){
         if(SolarYearHours.isSolarYear()){
-            return SolarYearHours.calculateSolarHours();
+            int[] returner = new int[1];
+            returner[0] = SolarYearHours.getHourInYear();
+            return returner;
         }else if(custom){
             return calculateCustomHours(customWeek);
         }else {
@@ -197,6 +250,7 @@ public class StandardWorkHours extends Application {
     }
 
     public static void setCustomDailyHours(String dayName, DailyHours item){
+        int i = standardWeek.length;
         switch (dayName){
             case "Monday":
                 customWeek[0] = item;
@@ -249,53 +303,71 @@ public class StandardWorkHours extends Application {
     }
 
     public static void setEnableStandardDay(String dayName, boolean value){
+
+        boolean returner;
+
+        if(value){
+            returner = true;
+        }else {
+            returner = false;
+        }
+
         switch (dayName){
             case "Monday":
-                standardWeek[0].setEnable(value);
+                standardWeek[0].setEnable(returner);
                 break;
             case "Tuesday":
-                standardWeek[1].setEnable(value);
+                standardWeek[1].setEnable(returner);
                 break;
             case "Thursday":
-                standardWeek[2].setEnable(value);
+                standardWeek[2].setEnable(returner);
                 break;
             case "Wednesday":
-                standardWeek[3].setEnable(value);
+                standardWeek[3].setEnable(returner);
                 break;
             case "Friday":
-                standardWeek[4].setEnable(value);
+                standardWeek[4].setEnable(returner);
                 break;
             case "Saturday":
-                standardWeek[5].setEnable(value);
+                standardWeek[5].setEnable(returner);
                 break;
             case "Sunday":
-                standardWeek[6].setEnable(value);
+                standardWeek[6].setEnable(returner);
                 break;
         }
     }
 
     public static void setEnableCustomDay(String dayName, boolean value){
+
+        boolean returner;
+
+        if(value){
+            returner = true;
+        }else {
+            returner = false;
+        }
+
         switch (dayName){
             case "Monday":
-                customWeek[0].setEnable(value);
+                customWeek[0].setEnable(returner);
                 break;
             case "Tuesday":
-                customWeek[1].setEnable(value);
+                customWeek[1].setEnable(returner);
                 break;
             case "Thursday":
-                customWeek[2].setEnable(value);
+                customWeek[2].setEnable(returner);
                 break;
             case "Wednesday":
-                customWeek[3].setEnable(value);
+                customWeek[3].setEnable(returner);
                 break;
             case "Friday":
-                customWeek[4].setEnable(value);
+                customWeek[4].setEnable(returner);
                 break;
             case "Saturday":
-                customWeek[5].setEnable(value);
+                customWeek[5].setEnable(returner);
                 break;
             case "Sunday":
-                customWeek[6].setEnable(value);
+                customWeek[6].setEnable(returner);
                 break;
         }
     }

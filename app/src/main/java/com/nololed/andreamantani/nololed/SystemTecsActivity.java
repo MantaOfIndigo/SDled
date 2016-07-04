@@ -227,7 +227,8 @@ public class SystemTecsActivity extends AppCompatActivity{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         SystemTecsActivity.this.finish();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+
+                        Intent intent = new Intent(SystemTecsActivity.this, HomeActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

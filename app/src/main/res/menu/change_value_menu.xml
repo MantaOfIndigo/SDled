@@ -4,13 +4,13 @@
     <item
         android:id="@+id/action_favorite"
         android:title=""
-        android:icon="@android:drawable/ic_menu_info_details"
+        android:icon="@drawable/options"
         app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/action_mail"
         android:title=""
-        android:icon="@android:drawable/sym_action_email"
+        android:icon="@drawable/mail"
         app:showAsAction="ifRoom"
         />
 

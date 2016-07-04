@@ -12,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.nololed.andreamantani.nololed.Model.DailyHours;
@@ -42,6 +45,11 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
 
     DailyHours myStandard;
 
+    CheckBox allDaychk;
+    CheckBox oneTurnchk;
+
+    boolean allDay = false;
+    boolean oneTurn = false;
     boolean hourConfirmed = true;
 
     String dayName;
@@ -59,12 +67,132 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         setTitle(this.dayName);
 
         myStandard = StandardWorkHours.getDayStandard(dayName);
+
+
+        oneTurnchk = (CheckBox) findViewById(R.id.daily_hour_one_turn);
+        allDaychk = (CheckBox) findViewById(R.id.daily_hour_24);
+
+
+        allDaychk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    allDay = true;
+                    oneTurn = false;
+
+                    oneTurnchk.setChecked(false);
+
+                    setHourSelector(0,0,0);
+                    setHourSelector(12,0,1);
+                    setHourSelector(12,0,2);
+                    setHourSelector(0,0,3);
+
+                    beginAM.setEnabled(false);
+                    endAM.setEnabled(false);
+                    beginPM.setEnabled(false);
+                    endAM.setEnabled(false);
+
+                    checkDates();
+                }else {
+
+                    allDay = false;
+
+
+
+                    setHourSelector(myStandard.getBeginAMHour(), myStandard.getBeginAMMinute(),0);
+                    setHourSelector(myStandard.geteEndAMHour(), myStandard.getEndAMMinute(),1);
+                    setHourSelector(myStandard.getBeginPMHour(), myStandard.getBeginPMMinute(),2);
+                    setHourSelector(myStandard.getEndPMHour(), myStandard.getEndPMMinute(),3);
+
+                    checkDates();
+                }
+            }
+        });
+
+        oneTurnchk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+
+                    oneTurn = true;
+                    allDay = false;
+
+                    allDaychk.setChecked(false);
+
+                    endAM.setBackgroundResource(R.color.custom_disable_grey);
+                    endAM.setEnabled(false);
+                    beginPM.setBackgroundResource(R.color.custom_disable_grey);
+                    beginPM.setEnabled(false);
+
+
+                    checkDates();
+                }else{
+                    oneTurn = false;
+
+                    setHourSelector(myStandard.getBeginAMHour(), myStandard.getBeginAMMinute(),0);
+                    setHourSelector(myStandard.geteEndAMHour(), myStandard.getEndAMMinute(),1);
+                    setHourSelector(myStandard.getBeginPMHour(), myStandard.getBeginPMMinute(),2);
+                    setHourSelector(myStandard.getEndPMHour(), myStandard.getEndPMMinute(),3);
+
+                    endAM.setBackgroundResource(R.color.custom_dark_blue);
+                    endAM.setEnabled(true);
+                    beginPM.setBackgroundResource(R.color.custom_dark_blue);
+                    beginPM.setEnabled(true);
+
+
+                    checkDates();
+                }
+            }
+        });
+
+        //workHours = new DailyHours();
+        initializeHoursSelector();
+
+        checkDates();
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        DailyHours workHours = new DailyHours();
+        switch (item.getItemId()) {
+            case R.id.action_favorite:
+
+                checkDates();
+
+                if (hourConfirmed || allDay) {
+
+                    DailyHours workHoursToSave = new DailyHours();
+
+                    if(allDay){
+                        workHours.set24hTurn();
+                    }else if(oneTurn){
+                        workHours.setOneTurn(bAMCalendar, ePMCalendar);
+                    }else {
+                        workHours.setAMTurn(bAMCalendar, eAMCalendar);
+                        workHours.setPMTurn(bPMCalendar, ePMCalendar);
+                    }
+
+                    StandardWorkHours.setDailyHours(this.dayName, workHours);
+                    startActivity(new Intent(DailyWorkhoursActivity.this, WeekSetUpActivity.class));
+
+                } else {
+                    Toast.makeText(DailyWorkhoursActivity.this, "Inserisci un orario valido", Toast.LENGTH_SHORT);
+                }
+        }
+
+        return true;
+    }
+
+    private void initializeHoursSelector(){
+
         //workHours = new DailyHours();
 
-        bAMCalendar = myStandard.getBeginAMCalendar();
-        eAMCalendar = myStandard.getEndAMCalendar();
-        bPMCalendar = myStandard.getBeginPMCalendar();
-        ePMCalendar = myStandard.getEndPMCalendar();
+        bAMCalendar = (Calendar) myStandard.getBeginAMCalendar().clone();
+        eAMCalendar = (Calendar) myStandard.getEndAMCalendar().clone();
+        bPMCalendar = (Calendar) myStandard.getBeginPMCalendar().clone();
+        ePMCalendar = (Calendar) myStandard.getEndPMCalendar().clone();
 
         beginAM = (LinearLayout) findViewById(R.id.daily_hour_begin_am);
         endAM = (LinearLayout) findViewById(R.id.daily_hour_end_am);
@@ -81,6 +209,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         beginPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getBeginPMHour(), myStandard.getBeginPMMinute()));
         endPMtxt.setText(CalendarUtils.getTimeFormatted(myStandard.getEndPMHour(), myStandard.getEndPMMinute()));
 
+
         beginAM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +219,9 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
                         beginAMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
                         bAMCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         bAMCalendar.set(Calendar.MINUTE, minute);
-                        checkDates(bAMCalendar, 0);
+                        checkDates();
                     }
-                }, myStandard.getBeginAMHour(), myStandard.getBeginAMMinute(), true, 0, 13);
+                }, myStandard.getBeginAMHour(), myStandard.getBeginAMMinute(), true, 0, 23);
                 time.show();
             }
         });
@@ -106,7 +235,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
                         endAMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
                         eAMCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         eAMCalendar.set(Calendar.MINUTE, minute);
-                        checkDates(eAMCalendar, 1);
+                        checkDates();
                     }
                 }, myStandard.geteEndAMHour(), myStandard.getEndAMMinute(), true, 0, 23);
                 time.show();
@@ -122,7 +251,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
                         beginPMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
                         bPMCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         bPMCalendar.set(Calendar.MINUTE, minute);
-                        checkDates(bPMCalendar, 2);
+                        checkDates();
                     }
                 }, myStandard.getBeginPMHour(), myStandard.getBeginPMMinute(), true, 0, 23);
 
@@ -140,31 +269,47 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
                         endPMtxt.setText(CalendarUtils.getTimeFormatted(hourOfDay, minute));
                         ePMCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         ePMCalendar.set(Calendar.MINUTE, minute);
-                        checkDates(ePMCalendar, 3);
-
+                        checkDates();
                     }
-                }, myStandard.getEndPMHour(), myStandard.getEndPMMinute(), true, 13, 23);
+                }, myStandard.getEndPMHour(), myStandard.getEndPMMinute(), true, 0, 23);
                 time.show();
             }
         });
+
     }
 
+    private void setHourSelector(int hour, int minute, int index){
+        final TextView beginAMtxt = (TextView) findViewById(R.id.daily_hour_txt_beginam);
+        final TextView endAMtxt = (TextView) findViewById(R.id.daily_hour_txt_endam);
+        final TextView beginPMtxt = (TextView) findViewById(R.id.daily_hour_txt_beginpm);
+        final TextView endPMtxt = (TextView) findViewById(R.id.daily_hour_txt_endpm);
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        DailyHours workHours = new DailyHours();
-        switch (item.getItemId()) {
-            case R.id.action_favorite:
-                if(hourConfirmed) {
-                    workHours.setAMTurn(bAMCalendar, eAMCalendar);
-                    workHours.setPMTurn(bPMCalendar, ePMCalendar);
-                    StandardWorkHours.setDailyHours(this.dayName, workHours);
-                    startActivity(new Intent(DailyWorkhoursActivity.this, WeekSetUpActivity.class));
-                }
+        if(index == 0){
+            bAMCalendar.set(Calendar.HOUR_OF_DAY, hour);
+            bAMCalendar.set(Calendar.MINUTE, minute);
+            beginAMtxt.setText(CalendarUtils.getTimeFormatted(hour,minute));
         }
 
-        return true;
+        if(index == 1){
+            eAMCalendar.set(Calendar.HOUR_OF_DAY, hour);
+            eAMCalendar.set(Calendar.MINUTE, minute);
+            endAMtxt.setText(CalendarUtils.getTimeFormatted(hour,minute));
+        }
+
+        if(index == 2){
+            bPMCalendar.set(Calendar.HOUR_OF_DAY, hour);
+            bPMCalendar.set(Calendar.MINUTE, minute);
+            beginPMtxt.setText(CalendarUtils.getTimeFormatted(hour,minute));
+        }
+
+        if(index == 3){
+            ePMCalendar.set(Calendar.HOUR_OF_DAY, hour);
+            ePMCalendar.set(Calendar.MINUTE, minute);
+            endPMtxt.setText(CalendarUtils.getTimeFormatted(hour,minute));
+        }
+
+
+
     }
 
     @Override
@@ -174,34 +319,89 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
-    private boolean checkDates(Calendar item, int index){
+    private boolean checkAll4Hours(){
         boolean flag = true;
-        if(CalendarUtils.checkHours(bAMCalendar, eAMCalendar)){
+
+        int checker = 2;//valore che metodo non ritorna mai
+
+        checker = CalendarUtils.checkHours(bAMCalendar, eAMCalendar);
+        // 1 - il primo viene prima
+        // 0 - sono uguali
+        //-1 - il secondo viene prima
+
+        if (checker == 1) {
             setUpRecordLayout(endAM, false);
-        }else{
+        } else {
             setUpRecordLayout(endAM, true);
             flag = false;
         }
 
-        if(CalendarUtils.checkHours(bPMCalendar, ePMCalendar)){
+        checker = CalendarUtils.checkHours(bPMCalendar, ePMCalendar);
+
+        if (checker == 1) {
             setUpRecordLayout(endPM, false);
-        }else{
-            setUpRecordLayout(endPM, true);
-            flag = false;
+        } else if(checker == -1){
+            if(ePMCalendar.get(Calendar.HOUR_OF_DAY) == 0 && ePMCalendar.get(Calendar.MINUTE) == 0){
+                setUpRecordLayout(endPM, false);
+            }else {
+                setUpRecordLayout(endPM, true);
+                flag = false;
+            }
         }
 
-        if(CalendarUtils.checkHours(bAMCalendar,bPMCalendar)){
+
+        checker = CalendarUtils.checkHours(bAMCalendar, bPMCalendar);
+
+        if (checker == 1) {
             setUpRecordLayout(beginPM, false);
-        }else {
+        } else {
             setUpRecordLayout(beginPM, true);
             flag = false;
         }
 
-        if(CalendarUtils.checkHours(eAMCalendar, bPMCalendar)){
+
+        checker = CalendarUtils.checkHours(eAMCalendar, bPMCalendar);
+
+        if (checker == 1) {
             setUpRecordLayout(beginPM, false);
-        }else {
+        } else {
             setUpRecordLayout(beginPM, true);
             flag = false;
+        }
+
+        return flag;
+    }
+
+    private boolean checkDates(){
+        boolean flag = true;
+
+        if(oneTurn){
+
+            int checker = CalendarUtils.checkHours(bAMCalendar, ePMCalendar);
+
+            if (checker == 1) {
+                setUpRecordLayout(endPM, false);
+            } else if(checker == -1){
+                if(ePMCalendar.get(Calendar.HOUR_OF_DAY) == 0 && ePMCalendar.get(Calendar.MINUTE) == 0){
+                    setUpRecordLayout(endPM, false);
+                }else {
+                    setUpRecordLayout(endPM, true);
+                    flag = false;
+                }
+            }
+
+            if(checker == 0){
+                setUpRecordLayout(endPM, true);
+                flag = false;
+            }
+
+        }else if(allDay){
+            setUpRecordLayout(beginAM, false);
+            setUpRecordLayout(beginPM, false);
+            setUpRecordLayout(endAM, false);
+            setUpRecordLayout(endPM, false);
+        } else {
+            flag = checkAll4Hours();
         }
 
         hourConfirmed = flag;
@@ -266,7 +466,7 @@ public class DailyWorkhoursActivity extends AppCompatActivity{
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         DailyWorkhoursActivity.this.finish();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        Intent intent = new Intent(DailyWorkhoursActivity.this, HomeActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

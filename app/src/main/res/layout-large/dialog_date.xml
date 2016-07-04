@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    android:background="#f3f3f3">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@color/custom_blue">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp">
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomExtraLightFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="giorno"
+                android:id="@+id/dialog_string_date_day"
+                android:textColor="#ffffff"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <com.nololed.andreamantani.nololed.FontClasses.CustomRegularFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="MESE"
+                android:id="@+id/dialog_string_date_month"
+                android:textSize="37dp"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_calendar_frame"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"></FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/dialog_date_frame">
+
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dialog_datepicker_control"
+            style="@style/MyDatePicker"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="ANNULLA"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/dialog_date_null"
+            android:layout_weight="0.5"
+            android:background="#bcbcbc"
+            android:textColor="#f3f3f3" />
+
+        <com.nololed.andreamantani.nololed.FontClasses.CustomButtonFont
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="AVANTI"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/dialog_date_ok"
+            android:layout_weight="0.5"
+            android:background="@android:color/transparent"
+            android:textColor="#798892" />
+    </LinearLayout>
+
+</LinearLayout>
